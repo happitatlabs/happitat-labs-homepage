@@ -141,15 +141,16 @@ function HomePage() {
           />
           <div className="hero-shade" />
           <div className="container hero-content reveal">
-            <p className="eyebrow">Independent product studio</p>
+            <p className="eyebrow">MVP First AI Product Studio</p>
             <h1 id="hero-title">Happitat Labs</h1>
             <p className="hero-copy">
               사람과 시스템 사이의 복잡함을 줄이는 소프트웨어를 만듭니다.
             </p>
             <p className="hero-support">
-              Happitat Labs는 문제를 발견하고 구조화한 뒤, AI를 활용해 사람이
-              이해하고 실무자가 유지하기 쉬운 제품으로 바꾸는 독립 제품
-              스튜디오입니다.
+              우리는 일상과 업무 속 작은 불편을 발견합니다. 빠르게 MVP를 만들고
+              실제 사용자의 피드백으로 검증합니다. 검증된 제품은 하나의 공통
+              엔진으로 발전시키며, 결국 사람과 시스템 사이의 복잡함을 줄이는 AI
+              Product Studio를 지향합니다.
             </p>
             <div className="hero-actions" aria-label="주요 링크">
               <a className="button button-primary" href="#products">
@@ -171,17 +172,17 @@ function HomePage() {
           <div className="container section-grid">
             <div className="section-heading reveal">
               <p className="eyebrow">About</p>
-              <h2 id="about-title">1인 AI 활용 제품 스튜디오</h2>
+              <h2 id="about-title">MVP First 제품 스튜디오</h2>
             </div>
             <div className="section-body reveal reveal-delay-1">
               <p>
-                Happitat Labs는 사용자 문제를 발견하고, 복잡한 정보를 이해 가능한
-                구조로 바꾸며, AI를 활용해 작은 MVP로 빠르게 검증하는 제품
+                Happitat Labs는 작은 문제를 꾸준히 해결하는 독립 제품
                 스튜디오입니다.
               </p>
               <p>
-                UI/UX, 업무 자동화, 데이터 활용, 기록 도구를 바탕으로 사람이 이해하기
-                쉽고 실무자가 유지하기 쉬운 소프트웨어를 만듭니다.
+                우리는 화려한 플랫폼보다 실제로 사용되는 작은 도구를 먼저
+                만듭니다. 문제가 검증되면 제품이 되고, 제품이 모이면 플랫폼이
+                됩니다.
               </p>
               <ul className="capability-list" aria-label="개발 영역">
                 {capabilityTags.map((tag) => (
@@ -196,12 +197,10 @@ function HomePage() {
           <div className="container">
             <div className="section-heading reveal">
               <p className="eyebrow">Products</p>
-              <h2 id="products-title">
-                복잡한 문제를 이해 가능한 제품으로 바꿉니다.
-              </h2>
+              <h2 id="products-title">MVP에서 플랫폼으로 성장하는 제품들</h2>
               <p className="section-lead">
-                Happitat Labs의 제품은 거창한 기능보다 실제 사용자가 막히는 지점을
-                찾고, 그 문제를 작고 이해 가능한 도구로 바꾸는 데 집중합니다.
+                제품을 나열하기보다 작은 문제를 빠르게 만들고 검증하며, 반복되는
+                구조를 공통 엔진으로 키워가는 흐름에 집중합니다.
               </p>
             </div>
             <div className="product-grid">
@@ -234,10 +233,11 @@ function HomePage() {
           <div className="container">
             <div className="section-heading reveal">
               <p className="eyebrow">Process</p>
-              <h2 id="process-title">작업 방식</h2>
+              <h2 id="process-title">Happitat 방식</h2>
               <p className="section-lead">
-                Happitat Labs는 기능을 먼저 늘리지 않습니다. 문제를 발견하고, 정보를
-                구조화한 뒤, 작은 MVP로 만들고 실제 사용 흐름에서 검증합니다.
+                Happitat Labs는 플랫폼을 먼저 만들지 않습니다. 작은 문제 하나를
+                발견하고, MVP로 검증한 뒤, 반복되는 구조를 제품과 플랫폼으로
+                성장시킵니다.
               </p>
             </div>
             <div className="process-grid">
@@ -265,11 +265,13 @@ function HomePage() {
           <div className="container founder-layout reveal">
             <div>
               <p className="eyebrow">Founder</p>
-              <h2 id="founder-title">기록에서 구조로, 구조에서 제품으로</h2>
+              <h2 id="founder-title">복잡한 시스템을 단순하게 만드는 일</h2>
             </div>
             <p>
-              창업자의 작업 기록, 제품 메모, 실험 노트와 MVP 검증 과정은 대표
-              노션에서 확인할 수 있습니다.
+              복잡한 시스템을 단순하게 만드는 것을 좋아합니다. UI/UX에서 시작하여
+              AI Product Engineering으로 영역을 확장하고 있습니다. 현재는 AI를
+              활용해 사람과 시스템 사이의 이해 비용을 줄이는 제품을 연구하고
+              있습니다.
             </p>
             <a
               className="button button-primary"
@@ -343,12 +345,13 @@ function ProductDetailPage({ product }: { product: Product }) {
         <div className="container section-grid">
           <div className="section-heading reveal">
             <p className="eyebrow">Product page</p>
-            <h2 id="detail-status-title">상세 소개 페이지 준비 중</h2>
+            <h2 id="detail-status-title">MVP 검증 기록을 준비 중입니다</h2>
           </div>
           <div className="section-body reveal reveal-delay-1">
             <p>
-              이 경로는 제품별 상세 페이지를 위해 미리 열어두었습니다. 공개 가능한 소개,
-              데모, 업데이트 로그를 순차적으로 연결할 예정입니다.
+              이 경로는 제품별 실험 기록, 사용자 피드백, 데모, 업데이트 로그를
+              연결하기 위해 열어두었습니다. 검증 가능한 내용부터 순차적으로
+              공개할 예정입니다.
             </p>
           </div>
         </div>
