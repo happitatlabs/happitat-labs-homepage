@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import {
   capabilityTags,
   links,
@@ -242,20 +242,37 @@ function HomePage() {
             </div>
             <div className="process-grid">
               {processSteps.map((step, index) => (
-                <article
-                  className="process-card reveal"
-                  style={
-                    {
-                      "--reveal-delay": `${100 + index * 70}ms`,
-                    } as CSSProperties
-                  }
-                  key={step.title}
-                >
-                  <span className="process-index">{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{step.title}</h3>
-                  <p className="process-subtitle">{step.subtitle}</p>
-                  <p>{step.description}</p>
-                </article>
+                <Fragment key={step.title}>
+                  <article
+                    className="process-card reveal"
+                    style={
+                      {
+                        "--reveal-delay": `${100 + index * 70}ms`,
+                      } as CSSProperties
+                    }
+                  >
+                    <span className="process-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{step.title}</h3>
+                    <p className="process-subtitle">{step.subtitle}</p>
+                    <p>{step.description}</p>
+                  </article>
+                  {index < processSteps.length - 1 && (
+                    <div
+                      className="process-arrow reveal"
+                      style={
+                        {
+                          "--reveal-delay": `${135 + index * 70}ms`,
+                        } as CSSProperties
+                      }
+                      aria-hidden="true"
+                    >
+                      <span className="arrow-horizontal">→</span>
+                      <span className="arrow-vertical">↓</span>
+                    </div>
+                  )}
+                </Fragment>
               ))}
             </div>
           </div>
@@ -265,7 +282,9 @@ function HomePage() {
           <div className="container founder-layout reveal">
             <div>
               <p className="eyebrow">Founder</p>
-              <h2 id="founder-title">복잡한 시스템을 단순하게 만드는 일</h2>
+              <h2 id="founder-title">
+                문제를 구조로 해결하는 AI 응용소프트웨어 개발자
+              </h2>
             </div>
             <p>
               복잡한 시스템을 단순하게 만드는 것을 좋아합니다. UI/UX에서 시작하여
