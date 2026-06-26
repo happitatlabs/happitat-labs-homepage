@@ -19,8 +19,11 @@ npm run build
 
 - Framework preset: `Vite`
 - Build command: `npm run build`
-- Build output directory: `dist`
-- Root directory: `happitat-labs-homepage`
+- Deploy command: `npx wrangler deploy`
+- Path: `/`
+
+This repository uses Cloudflare Workers Static Assets. SPA fallback for product
+detail routes is configured in `wrangler.jsonc`.
 
 ## Links
 
