@@ -9,7 +9,7 @@ export type Product = {
   summary: string;
   detail: string;
   signal: string;
-  status: "MVP" | "Beta" | "Validation" | "Platform Candidate";
+  status: "MVP" | "Beta" | "Validation";
   path: string;
 };
 
@@ -60,15 +60,6 @@ export const products = [
     path: "/products/happy-habitat",
   },
   {
-    name: "UI Inspector",
-    summary: "사용성 문제를 자동으로 점검하고 개선 지점을 찾는 검증 MVP",
-    detail:
-      "UI Inspector는 화면과 사용 흐름에서 사용자가 막힐 수 있는 지점을 점검하는 검증 MVP입니다. UI/UX 관찰 기준과 AI 활용 진단 흐름을 결합해 제품 개선의 출발점을 찾습니다.",
-    signal: "INSPECT",
-    status: "Validation",
-    path: "/products/ui-inspector",
-  },
-  {
     name: "SQL Diagnoser",
     summary: "복잡한 SQL과 레거시 쿼리를 사람이 이해할 수 있는 구조로 바꾸는 MVP",
     detail:
@@ -78,12 +69,12 @@ export const products = [
     path: "/products/sql-diagnoser",
   },
   {
-    name: "Idea Logbook",
-    summary: "AI 작업 과정에서 흩어지는 아이디어와 결정 흐름을 기록하는 미들웨어 MVP",
+    name: "UI Inspector",
+    summary: "사용성 문제를 자동으로 점검하고 개선 지점을 찾는 검증 MVP",
     detail:
-      "Idea Logbook은 AI와 함께 작업할 때 흩어지는 아이디어, 프롬프트, 결정 흐름을 남기는 미들웨어 MVP입니다. 여러 제품에 공통으로 필요한 기록 엔진으로 확장할 수 있는지 확인하고 있습니다.",
-    signal: "CAPTURE",
-    status: "Platform Candidate",
-    path: "/products/idea-logbook",
+      "UI Inspector는 화면과 사용 흐름에서 사용자가 막힐 수 있는 지점을 점검하는 검증 MVP입니다. UI/UX 관찰 기준과 AI 활용 진단 흐름을 결합해 제품 개선의 출발점을 찾습니다.",
+    signal: "INSPECT",
+    status: "Validation",
+    path: "/products/ui-inspector",
   },
 ] satisfies Product[];
