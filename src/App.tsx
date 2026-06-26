@@ -307,7 +307,7 @@ function HomePage() {
           <div className="container section-grid">
             <div className="section-heading reveal">
               <p className="eyebrow">Contact</p>
-              <h2 id="contact-title">제품, 협업, 실험에 관한 연락</h2>
+              <h2 id="contact-title">제품 및 프로젝트에 관한 문의</h2>
             </div>
             <address className="contact-list reveal reveal-delay-1">
               <a href={`mailto:${links.email}`}>
