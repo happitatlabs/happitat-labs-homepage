@@ -50,6 +50,7 @@ function App() {
   const isProductRoute = currentPath.startsWith("/products");
 
   useScrollReveal(currentPath);
+  useHashScroll(currentPath);
 
   return (
     <>
@@ -107,6 +108,39 @@ function useScrollReveal(pathKey: string) {
     elements.forEach((element) => observer.observe(element));
 
     return () => observer.disconnect();
+  }, [pathKey]);
+}
+
+function useHashScroll(pathKey: string) {
+  useEffect(() => {
+    const scrollToCurrentHash = () => {
+      const targetId = decodeURIComponent(window.location.hash.replace("#", ""));
+      if (!targetId) return;
+
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      const headerHeight =
+        document.querySelector<HTMLElement>(".site-header")?.offsetHeight ?? 0;
+      const targetTop =
+        target.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
+
+      window.scrollTo({
+        top: Math.max(targetTop, 0),
+        behavior: "smooth",
+      });
+    };
+
+    const scheduleScroll = () => {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(scrollToCurrentHash);
+      });
+    };
+
+    scheduleScroll();
+    window.addEventListener("hashchange", scheduleScroll);
+
+    return () => window.removeEventListener("hashchange", scheduleScroll);
   }, [pathKey]);
 }
 
@@ -347,11 +381,12 @@ function ProductDetailPage({ product }: { product: Product }) {
           <div className="detail-actions">
             <a
               className="button button-primary"
-              href={links.notion}
+              href={product.updateUrl}
               target="_blank"
               rel="noreferrer"
+              aria-label={`${product.name} GitHub에서 업데이트 보기`}
             >
-              대표 Notion에서 업데이트 보기
+              GitHub에서 업데이트 보기
             </a>
             <a className="button button-secondary" href="/#contact">
               문의하기

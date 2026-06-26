@@ -11,6 +11,7 @@ export type Product = {
   signal: string;
   status: "MVP" | "Beta" | "Validation";
   path: string;
+  updateUrl: string;
 };
 
 export const capabilityTags = [
@@ -58,6 +59,7 @@ export const products = [
     signal: "RECORD",
     status: "Beta",
     path: "/products/happy-habitat",
+    updateUrl: links.github,
   },
   {
     name: "SQL Diagnoser",
@@ -67,6 +69,7 @@ export const products = [
     signal: "ANALYZE",
     status: "MVP",
     path: "/products/sql-diagnoser",
+    updateUrl: links.github,
   },
   {
     name: "UI Inspector",
@@ -76,5 +79,6 @@ export const products = [
     signal: "INSPECT",
     status: "Validation",
     path: "/products/ui-inspector",
+    updateUrl: links.github,
   },
 ] satisfies Product[];
