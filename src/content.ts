@@ -1,5 +1,5 @@
 export const links = {
-  notion: "https://www.notion.so/",
+  notion: "https://kimhyein.notion.site/AI-28df11285b02807e839bf0764cdef515",
   email: "hello@happitatlabs.com",
   github: "https://github.com/happitatlabs",
 };
