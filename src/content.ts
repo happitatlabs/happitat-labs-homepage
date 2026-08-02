@@ -15,6 +15,7 @@ export type Product = {
   path: string;
   updateUrl: string;
   updateLabel: string;
+  demoUrl?: string;
   storeUrl?: string;
   releaseLabel?: string;
   cardCta?: string;
@@ -81,6 +82,7 @@ export const products = [
     path: "/products/sql-diagnoser",
     updateUrl: links.github,
     updateLabel: "GitHub에서 업데이트 보기",
+    demoUrl: "https://sql-diagnoser-demo.pletta900114.workers.dev",
   },
   {
     name: "UI Inspector",

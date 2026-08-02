@@ -385,6 +385,7 @@ function HomePage() {
 function ProductDetailPage({ product }: { product: Product }) {
   const relatedProducts = products.filter((item) => item.path !== product.path);
   const hasStoreUrl = Boolean(product.storeUrl);
+  const hasDemoUrl = Boolean(product.demoUrl);
 
   return (
     <main id="main" className="detail-main">
@@ -411,8 +412,19 @@ function ProductDetailPage({ product }: { product: Product }) {
                 Google Play에서 앱 보기
               </a>
             )}
+            {product.demoUrl && (
+              <a
+                className={hasStoreUrl ? "button button-secondary" : "button button-primary"}
+                href={product.demoUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${product.name} 데모 열기`}
+              >
+                데모 열기
+              </a>
+            )}
             <a
-              className={hasStoreUrl ? "button button-secondary" : "button button-primary"}
+              className={hasStoreUrl || hasDemoUrl ? "button button-secondary" : "button button-primary"}
               href={product.updateUrl}
               target="_blank"
               rel="noreferrer"
