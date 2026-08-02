@@ -11,7 +11,7 @@ export type Product = {
   summary: string;
   detail: string;
   signal: string;
-  status: "MVP" | "Validation" | "Google Play";
+  status: "MVP" | "Validation" | "Preparing" | "Google Play";
   path: string;
   updateUrl: string;
   updateLabel: string;
@@ -94,5 +94,18 @@ export const products = [
     path: "/products/ui-inspector",
     updateUrl: links.github,
     updateLabel: "GitHub에서 업데이트 보기",
+  },
+  {
+    name: "픽셀정비소",
+    summary: "도트 작업을 코드와 연결해 작은 창작물을 빠르게 정리하는 Dot Code Editor 자리",
+    detail:
+      "픽셀정비소는 Dot Code Editor가 들어갈 준비 공간입니다. 픽셀 작업과 코드 편집 흐름을 연결해 작은 그래픽 리소스를 빠르게 만들고 정리할 수 있는 도구로 검토하고 있습니다.",
+    signal: "CREATE",
+    status: "Preparing",
+    path: "/products/dot-code-editor",
+    updateUrl: links.github,
+    updateLabel: "GitHub에서 준비 소식 보기",
+    releaseLabel: "Dot Code Editor",
+    cardCta: "자리 보기",
   },
 ] satisfies Product[];

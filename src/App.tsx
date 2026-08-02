@@ -386,6 +386,7 @@ function ProductDetailPage({ product }: { product: Product }) {
   const relatedProducts = products.filter((item) => item.path !== product.path);
   const hasStoreUrl = Boolean(product.storeUrl);
   const hasDemoUrl = Boolean(product.demoUrl);
+  const isPreparing = product.status === "Preparing";
 
   return (
     <main id="main" className="detail-main">
@@ -444,13 +445,19 @@ function ProductDetailPage({ product }: { product: Product }) {
           <div className="section-heading reveal">
             <p className="eyebrow">Product page</p>
             <h2 id="detail-status-title">
-              {hasStoreUrl ? "Google Play에서 공개 중입니다" : "MVP 검증 기록을 준비 중입니다"}
+              {hasStoreUrl
+                ? "Google Play에서 공개 중입니다"
+                : isPreparing
+                  ? "제품 자리를 준비 중입니다"
+                  : "MVP 검증 기록을 준비 중입니다"}
             </h2>
           </div>
           <div className="section-body reveal reveal-delay-1">
             <p>
               {hasStoreUrl
                 ? `${product.name}은 Android에서 바로 확인할 수 있습니다. 제품 업데이트와 실험 기록은 GitHub 및 대표 Notion에 순차적으로 정리합니다.`
+                : isPreparing
+                  ? `${product.name}은 현재 콘셉트와 MVP 범위를 정리하고 있습니다. 공개 가능한 내용은 이 상세 경로에 순차적으로 연결합니다.`
                 : "이 경로는 제품별 실험 기록, 사용자 피드백, 데모, 업데이트 로그를 연결하기 위해 열어두었습니다. 검증 가능한 내용부터 순차적으로 공개할 예정입니다."}
             </p>
           </div>
