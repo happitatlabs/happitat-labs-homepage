@@ -2,6 +2,8 @@ export const links = {
   notion: "https://kimhyein.notion.site/AI-28df11285b02807e839bf0764cdef515",
   email: "hello@happitatlabs.com",
   github: "https://github.com/happitatlabs",
+  happyHabitatPlay:
+    "https://play.google.com/store/apps/details?id=com.happitatlabs.happyhabitat",
 };
 
 export type Product = {
@@ -9,9 +11,13 @@ export type Product = {
   summary: string;
   detail: string;
   signal: string;
-  status: "MVP" | "Beta" | "Validation";
+  status: "MVP" | "Validation" | "Google Play";
   path: string;
   updateUrl: string;
+  updateLabel: string;
+  storeUrl?: string;
+  releaseLabel?: string;
+  cardCta?: string;
 };
 
 export const capabilityTags = [
@@ -53,13 +59,17 @@ export const processSteps = [
 export const products = [
   {
     name: "Happy Habitat",
-    summary: "오늘 하루를 기록하고 회복의 순간을 남기는 생활 기록 MVP",
+    summary: "행복, 회복, 성과를 기록하고 한 달의 나를 돌아보는 Android 앱",
     detail:
-      "Happy Habitat은 바쁜 일상 속에서 놓치기 쉬운 회복의 순간을 기록하는 MVP입니다. 실제 사용자가 기록을 계속 이어갈 수 있는지 검증하며 Beta 단계로 성장하고 있습니다.",
+      "Happy Habitat은 오늘의 행복, 회복, 성과를 기록하고 월말 결산으로 나를 돌아보는 Android 앱입니다. Google Play에서 공개 중이며, 작은 기록이 오래 이어지는지 실제 사용 흐름에서 검증하고 있습니다.",
     signal: "RECORD",
-    status: "Beta",
+    status: "Google Play",
     path: "/products/happy-habitat",
     updateUrl: links.github,
+    updateLabel: "GitHub에서 업데이트 보기",
+    storeUrl: links.happyHabitatPlay,
+    releaseLabel: "Google Play 공개",
+    cardCta: "앱 보기",
   },
   {
     name: "SQL Diagnoser",
@@ -70,6 +80,7 @@ export const products = [
     status: "MVP",
     path: "/products/sql-diagnoser",
     updateUrl: links.github,
+    updateLabel: "GitHub에서 업데이트 보기",
   },
   {
     name: "UI Inspector",
@@ -80,5 +91,6 @@ export const products = [
     status: "Validation",
     path: "/products/ui-inspector",
     updateUrl: links.github,
+    updateLabel: "GitHub에서 업데이트 보기",
   },
 ] satisfies Product[];

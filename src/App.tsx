@@ -113,12 +113,23 @@ function useScrollReveal(pathKey: string) {
 
 function useHashScroll(pathKey: string) {
   useEffect(() => {
-    const scrollToCurrentHash = () => {
+    let frameId = 0;
+    let retryTimeoutId: number | undefined;
+
+    const scrollToCurrentHash = (attempt = 0) => {
       const targetId = decodeURIComponent(window.location.hash.replace("#", ""));
       if (!targetId) return;
 
       const target = document.getElementById(targetId);
-      if (!target) return;
+      if (!target) {
+        if (attempt < 12) {
+          retryTimeoutId = window.setTimeout(
+            () => scrollToCurrentHash(attempt + 1),
+            50,
+          );
+        }
+        return;
+      }
 
       const headerHeight =
         document.querySelector<HTMLElement>(".site-header")?.offsetHeight ?? 0;
@@ -132,15 +143,21 @@ function useHashScroll(pathKey: string) {
     };
 
     const scheduleScroll = () => {
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(scrollToCurrentHash);
+      window.clearTimeout(retryTimeoutId);
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        frameId = window.requestAnimationFrame(() => scrollToCurrentHash());
       });
     };
 
     scheduleScroll();
     window.addEventListener("hashchange", scheduleScroll);
 
-    return () => window.removeEventListener("hashchange", scheduleScroll);
+    return () => {
+      window.removeEventListener("hashchange", scheduleScroll);
+      window.clearTimeout(retryTimeoutId);
+      window.cancelAnimationFrame(frameId);
+    };
   }, [pathKey]);
 }
 
@@ -256,7 +273,10 @@ function HomePage() {
                   </div>
                   <h3>{product.name}</h3>
                   <p>{product.summary}</p>
-                  <span className="card-cta">자세히 보기</span>
+                  {product.releaseLabel && (
+                    <span className="release-note">{product.releaseLabel}</span>
+                  )}
+                  <span className="card-cta">{product.cardCta ?? "자세히 보기"}</span>
                 </a>
               ))}
             </div>
@@ -364,6 +384,7 @@ function HomePage() {
 
 function ProductDetailPage({ product }: { product: Product }) {
   const relatedProducts = products.filter((item) => item.path !== product.path);
+  const hasStoreUrl = Boolean(product.storeUrl);
 
   return (
     <main id="main" className="detail-main">
@@ -379,14 +400,25 @@ function ProductDetailPage({ product }: { product: Product }) {
           <h1 id="product-title">{product.name}</h1>
           <p>{product.detail}</p>
           <div className="detail-actions">
+            {product.storeUrl && (
+              <a
+                className="button button-primary"
+                href={product.storeUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${product.name} Google Play에서 보기`}
+              >
+                Google Play에서 앱 보기
+              </a>
+            )}
             <a
-              className="button button-primary"
+              className={hasStoreUrl ? "button button-secondary" : "button button-primary"}
               href={product.updateUrl}
               target="_blank"
               rel="noreferrer"
-              aria-label={`${product.name} GitHub에서 업데이트 보기`}
+              aria-label={`${product.name} 업데이트 보기`}
             >
-              GitHub에서 업데이트 보기
+              {product.updateLabel}
             </a>
             <a className="button button-secondary" href="/#contact">
               문의하기
@@ -399,13 +431,15 @@ function ProductDetailPage({ product }: { product: Product }) {
         <div className="container section-grid">
           <div className="section-heading reveal">
             <p className="eyebrow">Product page</p>
-            <h2 id="detail-status-title">MVP 검증 기록을 준비 중입니다</h2>
+            <h2 id="detail-status-title">
+              {hasStoreUrl ? "Google Play에서 공개 중입니다" : "MVP 검증 기록을 준비 중입니다"}
+            </h2>
           </div>
           <div className="section-body reveal reveal-delay-1">
             <p>
-              이 경로는 제품별 실험 기록, 사용자 피드백, 데모, 업데이트 로그를
-              연결하기 위해 열어두었습니다. 검증 가능한 내용부터 순차적으로
-              공개할 예정입니다.
+              {hasStoreUrl
+                ? `${product.name}은 Android에서 바로 확인할 수 있습니다. 제품 업데이트와 실험 기록은 GitHub 및 대표 Notion에 순차적으로 정리합니다.`
+                : "이 경로는 제품별 실험 기록, 사용자 피드백, 데모, 업데이트 로그를 연결하기 위해 열어두었습니다. 검증 가능한 내용부터 순차적으로 공개할 예정입니다."}
             </p>
           </div>
         </div>
