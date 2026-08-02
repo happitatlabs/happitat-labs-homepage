@@ -575,6 +575,7 @@ h3 {
 
 .contact-section {
   background: var(--bg);
+  min-height: calc(100svh - var(--header-height));
 }
 
 .contact-list {
