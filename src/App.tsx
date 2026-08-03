@@ -256,28 +256,43 @@ function HomePage() {
             </div>
             <div className="product-grid">
               {products.map((product, index) => (
-                <a
-                  className="product-card product-card-link reveal"
-                  href={product.path}
+                <article
+                  className="product-card reveal"
                   style={
                     {
                       "--reveal-delay": `${120 + index * 80}ms`,
                     } as CSSProperties
                   }
                   key={product.name}
-                  aria-label={`${product.name} 자세히 보기`}
                 >
-                  <div className="product-card-top">
-                    <p className="product-signal">{product.signal}</p>
-                    <span className="status-badge">{product.status}</span>
-                  </div>
-                  <h3>{product.name}</h3>
-                  <p>{product.summary}</p>
-                  {product.releaseLabel && (
-                    <span className="release-note">{product.releaseLabel}</span>
+                  <a
+                    className="product-card-link"
+                    href={product.path}
+                    aria-label={`${product.name} 자세히 보기`}
+                  >
+                    <div className="product-card-top">
+                      <p className="product-signal">{product.signal}</p>
+                      <span className="status-badge">{product.status}</span>
+                    </div>
+                    <h3>{product.name}</h3>
+                    <p>{product.summary}</p>
+                    {product.releaseLabel && (
+                      <span className="release-note">{product.releaseLabel}</span>
+                    )}
+                    <span className="card-cta">{product.cardCta ?? "자세히 보기"}</span>
+                  </a>
+                  {product.demoUrl && (
+                    <a
+                      className="button button-secondary card-demo-button"
+                      href={product.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${product.name} 데모 열기`}
+                    >
+                      데모 열기 <span aria-hidden="true">↗</span>
+                    </a>
                   )}
-                  <span className="card-cta">{product.cardCta ?? "자세히 보기"}</span>
-                </a>
+                </article>
               ))}
             </div>
           </div>

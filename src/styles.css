@@ -404,11 +404,17 @@ h3 {
     background-color 180ms ease;
 }
 
-.product-card-link:hover {
+.product-card:hover {
   transform: translateY(-6px);
   border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
   background: var(--surface-strong);
   box-shadow: 0 30px 90px rgba(23, 25, 28, 0.16);
+}
+
+.product-card-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .product-card-link:focus-visible {
@@ -475,6 +481,11 @@ h3 {
 
 .product-card-link:hover .card-cta {
   transform: translateX(3px);
+}
+
+.card-demo-button {
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .process-section {
