@@ -109,4 +109,17 @@ export const products = [
     releaseLabel: "브라우저 데모 공개",
     cardCta: "상세 보기",
   },
+  {
+    name: "Music Video Engine",
+    summary: "음악과 가사를 장면 구조로 바꾸고 이미지·영상을 연결해 뮤직비디오를 만드는 AI 제작 엔진",
+    detail:
+      "Music Video Engine은 오디오와 가사를 분석해 장면을 계획하고, 장면별 이미지와 영상을 생성한 뒤 최종 뮤직비디오로 합치는 AI 제작 엔진입니다. 로컬 웹/API 런타임에서 음악을 시각적 장면과 영상 흐름으로 바꾸는 제작 과정을 검증하고 있습니다.",
+    signal: "GENERATE",
+    status: "MVP",
+    path: "/products/music-video-engine",
+    updateUrl: "https://github.com/pletta900114-beep/Mellow-Video-Engine",
+    updateLabel: "GitHub에서 프로젝트 보기",
+    releaseLabel: "MVP 검증 중",
+    cardCta: "상세 보기",
+  },
 ] satisfies Product[];
