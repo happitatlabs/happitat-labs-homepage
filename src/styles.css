@@ -833,12 +833,15 @@ h3 {
 }
 
 .lab-intro > p:not(.eyebrow) {
+  position: relative;
   max-width: 500px;
   margin-top: 1.25rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   color: var(--muted);
   font-size: 1.1rem;
   font-weight: 680;
   line-height: 1.75;
+  padding: 0.16rem 0.35rem 0.22rem 0;
   word-break: keep-all;
 }
 
@@ -852,6 +855,7 @@ h3 {
 .lab-stage-inspector {
   display: grid;
   grid-area: inspector;
+  min-width: 0;
   align-content: start;
   min-height: 236px;
   border: 1px solid var(--border);
@@ -887,6 +891,7 @@ h3 {
   margin-top: 1rem;
   color: var(--muted);
   line-height: 1.7;
+  overflow-wrap: anywhere;
   word-break: keep-all;
 }
 
@@ -895,8 +900,11 @@ h3 {
   grid-area: focus;
   max-width: 320px;
   gap: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
   border-left: 2px solid var(--accent);
-  padding-left: 0.9rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  box-shadow: 0 14px 40px rgba(23, 25, 28, 0.08);
+  padding: 0.8rem 0.95rem;
   pointer-events: auto;
 }
 
@@ -1293,8 +1301,8 @@ h3 {
   }
 
   .site-header nav a {
-    font-size: 0.88rem;
-    padding: 0.42rem 0.45rem;
+    font-size: 0.82rem;
+    padding: 0.42rem 0.3rem;
   }
 
   .hero h1 {
@@ -1410,14 +1418,9 @@ h3 {
 
   .lab-stage-rail {
     width: min(100% - 1.25rem, var(--container));
-    grid-template-columns: repeat(5, minmax(94px, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0.35rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .lab-stage-rail::-webkit-scrollbar {
-    display: none;
+    overflow-x: visible;
   }
 
   .lab-stage-rail button {
@@ -1495,5 +1498,16 @@ h3 {
 
   .lab-contact-band .button {
     width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --header-height: 136px;
+  }
+
+  .site-header nav {
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
 }
