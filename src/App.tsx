@@ -1,16 +1,12 @@
 import type { CSSProperties } from "react";
-import { Fragment, lazy, Suspense, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import {
   capabilityTags,
   links,
   type Product,
+  processSteps,
   products,
 } from "./content";
-
-const PrototypeCanvas = lazy(async () => {
-  const module = await import("./LabExperience");
-  return { default: module.PrototypeCanvas };
-});
 
 type TimeTheme = "dawn" | "day" | "dusk" | "night";
 
@@ -166,19 +162,19 @@ function useHashScroll(pathKey: string) {
 }
 
 function SiteHeader({ productMode }: { productMode?: boolean }) {
-  const isInnerPage = productMode;
-  const sectionHref = (id: string) => (isInnerPage ? `/#${id}` : `#${id}`);
+  const sectionHref = (id: string) => (productMode ? `/#${id}` : `#${id}`);
 
   return (
     <header className="site-header">
-      <a className="brand" href={isInnerPage ? "/" : "#home"} aria-label="Happitat Labs 홈">
+      <a className="brand" href={productMode ? "/" : "#home"} aria-label="Happitat Labs 홈">
         Happitat Labs
       </a>
       <nav aria-label="주요 섹션">
-        <a href={sectionHref("process")}>작업</a>
-        <a href={sectionHref("about")}>소개</a>
-        <a href={links.notion} target="_blank" rel="noreferrer">기록</a>
-        <a href={sectionHref("contact")}>연락</a>
+        <a href={sectionHref("about")}>About</a>
+        <a href={sectionHref("products")}>Products</a>
+        <a href={sectionHref("process")}>Process</a>
+        <a href={sectionHref("founder")}>Founder</a>
+        <a href={sectionHref("contact")}>Contact</a>
       </nav>
     </header>
   );
@@ -186,106 +182,47 @@ function SiteHeader({ productMode }: { productMode?: boolean }) {
 
 function HomePage() {
   return (
-    <main id="main" className="studio-home">
-      <section className="studio-hero" id="home" aria-labelledby="hero-title">
-        <div className="container studio-hero-grid">
-          <div className="studio-hero-copy reveal">
-            <p className="studio-kicker">독립 AI Product Studio</p>
-            <h1 id="hero-title">
-              작은 문제를 발견하고,
-              <br />
-              구조화하고,
-              <br />
-              검증 가능한 MVP로
-              <br />
-              만듭니다.
-            </h1>
-            <p>
-              조용하고 단정한 방식으로 제품을 설계하는 독립 AI Product Studio.
-              문제를 관찰하고 구조로 정리한 뒤, 실제로 쓸 수 있는 작은 제품으로
-              검증합니다.
+    <main id="main">
+        <section className="hero" id="home" aria-labelledby="hero-title">
+          <img
+            className="hero-visual"
+            src="/hero-visual.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <div className="hero-shade" />
+          <div className="container hero-content reveal">
+            <p className="eyebrow">MVP First AI Product Studio</p>
+            <h1 id="hero-title">Happitat Labs</h1>
+            <p className="hero-copy">
+              사람과 시스템 사이의 복잡함을 줄이는 소프트웨어를 만듭니다.
             </p>
-          </div>
-
-          <div className="studio-object-stage" aria-hidden="true">
-            <Suspense fallback={<div className="studio-object-fallback" />}>
-              <PrototypeCanvas />
-            </Suspense>
-          </div>
-        </div>
-      </section>
-
-      <section className="studio-process section" id="process" aria-labelledby="process-title">
-        <div className="container">
-          <div className="studio-section-heading reveal">
-            <p className="studio-kicker">Working note</p>
-            <h2 id="process-title">작은 제품이 만들어지는 순서</h2>
-          </div>
-          <ol className="editorial-process-list">
-            {editorialProcessSteps.map((step, index) => (
-              <li className={index % 2 === 1 ? "is-offset reveal" : "reveal"} key={step.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <i aria-hidden="true" />
-                <div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="selected-products section" id="products" aria-labelledby="products-title">
-        <div className="container">
-          <div className="studio-section-heading studio-products-heading reveal">
-            <div>
-              <p className="studio-kicker">Selected products</p>
-              <h2 id="products-title">선별된 제품</h2>
-            </div>
-            <a className="quiet-link" href={links.notion} target="_blank" rel="noreferrer">
-              작업 기록 보기 <span aria-hidden="true">→</span>
-            </a>
-          </div>
-          <div className="selected-product-grid">
-            {products.slice(0, 3).map((product, index) => (
-              <article
-                className="selected-product-card reveal"
-                style={{ "--reveal-delay": `${80 + index * 90}ms` } as CSSProperties}
-                key={product.name}
+            <p className="hero-support">
+              우리는 일상과 업무 속 작은 불편을 발견합니다. 빠르게 MVP를 만들고
+              실제 사용자의 피드백으로 검증합니다. 검증된 제품은 하나의 공통
+              엔진으로 발전시키며, 결국 사람과 시스템 사이의 복잡함을 줄이는 AI
+              Product Studio를 지향합니다.
+            </p>
+            <div className="hero-actions" aria-label="주요 링크">
+              <a className="button button-primary" href="#products">
+                제품 보기
+              </a>
+              <a
+                className="button button-secondary"
+                href={links.notion}
+                target="_blank"
+                rel="noreferrer"
               >
-                <div className={`product-mark product-mark-${index + 1}`} aria-hidden="true">
-                  <span />
-                </div>
-                <div>
-                  <p>{product.signal}</p>
-                  <h3>{product.name}</h3>
-                  <p>{product.summary}</p>
-                </div>
-                <div className="selected-product-meta">
-                  <span>{product.status}</span>
-                  <a href={product.path}>자세히 보기 <span aria-hidden="true">→</span></a>
-                </div>
-              </article>
-            ))}
+                대표 노션
+              </a>
+            </div>
           </div>
-          {products.length > 3 && (
-            <p className="other-product-links reveal">
-              더 많은 실험 제품: {products.slice(3).map((product, index) => (
-                <Fragment key={product.name}>
-                  {index > 0 && <span aria-hidden="true"> · </span>}
-                  <a href={product.path}>{product.name}</a>
-                </Fragment>
-              ))}
-            </p>
-          )}
-        </div>
-      </section>
+        </section>
 
         <section className="section about-section" id="about" aria-labelledby="about-title">
           <div className="container section-grid">
-            <div className="section-heading reveal studio-existing-heading">
-              <p className="studio-kicker">About</p>
+            <div className="section-heading reveal">
+              <p className="eyebrow">About</p>
               <h2 id="about-title">MVP First 제품 스튜디오</h2>
             </div>
             <div className="section-body reveal reveal-delay-1">
@@ -303,6 +240,109 @@ function HomePage() {
                   <li key={tag}>{tag}</li>
                 ))}
               </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="section" id="products" aria-labelledby="products-title">
+          <div className="container">
+            <div className="section-heading reveal">
+              <p className="eyebrow">Products</p>
+              <h2 id="products-title">MVP에서 플랫폼으로 성장하는 제품들</h2>
+              <p className="section-lead">
+                제품을 나열하기보다 작은 문제를 빠르게 만들고 검증하며, 반복되는
+                구조를 공통 엔진으로 키워가는 흐름에 집중합니다.
+              </p>
+            </div>
+            <div className="product-grid">
+              {products.map((product, index) => (
+                <article
+                  className="product-card reveal"
+                  style={
+                    {
+                      "--reveal-delay": `${120 + index * 80}ms`,
+                    } as CSSProperties
+                  }
+                  key={product.name}
+                >
+                  <a
+                    className="product-card-link"
+                    href={product.path}
+                    aria-label={`${product.name} 자세히 보기`}
+                  >
+                    <div className="product-card-top">
+                      <p className="product-signal">{product.signal}</p>
+                      <span className="status-badge">{product.status}</span>
+                    </div>
+                    <h3>{product.name}</h3>
+                    <p>{product.summary}</p>
+                    {product.releaseLabel && (
+                      <span className="release-note">{product.releaseLabel}</span>
+                    )}
+                    <span className="card-cta">{product.cardCta ?? "자세히 보기"}</span>
+                  </a>
+                  {product.demoUrl && (
+                    <a
+                      className="button button-secondary card-demo-button"
+                      href={product.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${product.name} 데모 열기`}
+                    >
+                      데모 열기 <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section process-section" id="process" aria-labelledby="process-title">
+          <div className="container">
+            <div className="section-heading reveal">
+              <p className="eyebrow">Process</p>
+              <h2 id="process-title">Happitat 방식</h2>
+              <p className="section-lead">
+                Happitat Labs는 플랫폼을 먼저 만들지 않습니다. 작은 문제 하나를
+                발견하고, MVP로 검증한 뒤, 반복되는 구조를 제품과 플랫폼으로
+                성장시킵니다.
+              </p>
+            </div>
+            <div className="process-grid">
+              {processSteps.map((step, index) => (
+                <Fragment key={step.title}>
+                  <article
+                    className="process-card reveal"
+                    style={
+                      {
+                        "--reveal-delay": `${100 + index * 70}ms`,
+                      } as CSSProperties
+                    }
+                  >
+                    <span className="process-index">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3>{step.title}</h3>
+                    <p className="process-subtitle">{step.subtitle}</p>
+                    <p>{step.description}</p>
+                  </article>
+                  {index < processSteps.length - 1 && (
+                    <div
+                      className="process-arrow reveal"
+                      style={
+                        {
+                          "--reveal-delay": `${135 + index * 70}ms`,
+                        } as CSSProperties
+                      }
+                      aria-hidden="true"
+                    >
+                      <span className="arrow-horizontal">→</span>
+                      <span className="arrow-vertical">↓</span>
+                    </div>
+                  )}
+                </Fragment>
+              ))}
             </div>
           </div>
         </section>
@@ -353,28 +393,9 @@ function HomePage() {
             </address>
           </div>
         </section>
-    </main>
+      </main>
   );
 }
-
-const editorialProcessSteps = [
-  {
-    title: "문제 발견",
-    description: "사용자와 시장의 작은 신호를 수집하고, 가장 의미 있는 문제를 정의합니다.",
-  },
-  {
-    title: "구조화",
-    description: "문제를 분해하고 핵심 가설과 구조로 정리해 해결의 방향을 세웁니다.",
-  },
-  {
-    title: "MVP",
-    description: "가장 작은 형태로 빠르게 만들어 핵심 가설을 테스트합니다.",
-  },
-  {
-    title: "검증",
-    description: "데이터와 사용자 피드백으로 학습하여 다음 결정을 내립니다.",
-  },
-];
 
 function ProductDetailPage({ product }: { product: Product }) {
   const relatedProducts = products.filter((item) => item.path !== product.path);
