@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { Fragment, useEffect } from "react";
+import { Fragment, lazy, Suspense, useEffect } from "react";
 import {
   capabilityTags,
   links,
@@ -7,6 +7,11 @@ import {
   processSteps,
   products,
 } from "./content";
+
+const LabExperience = lazy(async () => {
+  const module = await import("./LabExperience");
+  return { default: module.LabExperience };
+});
 
 type TimeTheme = "dawn" | "day" | "dusk" | "night";
 
@@ -48,6 +53,7 @@ function App() {
   const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
   const selectedProduct = products.find((product) => product.path === currentPath);
   const isProductRoute = currentPath.startsWith("/products");
+  const isLabRoute = currentPath === "/lab";
 
   useScrollReveal(currentPath);
   useHashScroll(currentPath);
@@ -58,9 +64,13 @@ function App() {
         본문으로 바로가기
       </a>
 
-      <SiteHeader productMode={isProductRoute} />
+      <SiteHeader productMode={isProductRoute} labMode={isLabRoute} />
 
-      {selectedProduct ? (
+      {isLabRoute ? (
+        <Suspense fallback={<LabLoadingPage />}>
+          <LabExperience />
+        </Suspense>
+      ) : selectedProduct ? (
         <ProductDetailPage product={selectedProduct} />
       ) : isProductRoute ? (
         <MissingProductPage />
@@ -74,6 +84,17 @@ function App() {
         </div>
       </footer>
     </>
+  );
+}
+
+function LabLoadingPage() {
+  return (
+    <main id="main" className="lab-loading" aria-live="polite">
+      <div className="container">
+        <p className="eyebrow">Happitat Lab</p>
+        <h1>작업 장면을 준비하고 있습니다.</h1>
+      </div>
+    </main>
   );
 }
 
@@ -161,17 +182,25 @@ function useHashScroll(pathKey: string) {
   }, [pathKey]);
 }
 
-function SiteHeader({ productMode }: { productMode?: boolean }) {
-  const sectionHref = (id: string) => (productMode ? `/#${id}` : `#${id}`);
+function SiteHeader({
+  productMode,
+  labMode,
+}: {
+  productMode?: boolean;
+  labMode?: boolean;
+}) {
+  const isInnerPage = productMode || labMode;
+  const sectionHref = (id: string) => (isInnerPage ? `/#${id}` : `#${id}`);
 
   return (
     <header className="site-header">
-      <a className="brand" href={productMode ? "/" : "#home"} aria-label="Happitat Labs 홈">
+      <a className="brand" href={isInnerPage ? "/" : "#home"} aria-label="Happitat Labs 홈">
         Happitat Labs
       </a>
       <nav aria-label="주요 섹션">
         <a href={sectionHref("about")}>About</a>
         <a href={sectionHref("products")}>Products</a>
+        <a href="/lab" aria-current={labMode ? "page" : undefined}>Lab</a>
         <a href={sectionHref("process")}>Process</a>
         <a href={sectionHref("founder")}>Founder</a>
         <a href={sectionHref("contact")}>Contact</a>
@@ -206,6 +235,9 @@ function HomePage() {
             <div className="hero-actions" aria-label="주요 링크">
               <a className="button button-primary" href="#products">
                 제품 보기
+              </a>
+              <a className="button button-secondary" href="/lab">
+                Lab 탐색
               </a>
               <a
                 className="button button-secondary"
