@@ -2,9 +2,24 @@ export const links = {
   notion: "https://kimhyein.notion.site/AI-28df11285b02807e839bf0764cdef515",
   email: "hyein.kim.dev@gmail.com",
   github: "https://github.com/happitatlabs",
+  tistory: "https://paski.tistory.com",
   happyHabitatPlay:
     "https://play.google.com/store/apps/details?id=com.happitatlabs.happyhabitat",
 };
+
+export type LabNote = {
+  title: string;
+  url: string;
+  publishedAt: string;
+};
+
+export const labNotes = [
+  {
+    title: "어쩌다보니 재시작",
+    url: "https://paski.tistory.com/125",
+    publishedAt: "2025.10.19",
+  },
+] satisfies LabNote[];
 
 export type Product = {
   name: string;

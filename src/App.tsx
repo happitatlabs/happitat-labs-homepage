@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { Fragment, useEffect } from "react";
 import {
   capabilityTags,
+  labNotes,
   links,
   type Product,
   processSteps,
@@ -173,6 +174,9 @@ function SiteHeader({ productMode }: { productMode?: boolean }) {
         <a href={sectionHref("about")}>About</a>
         <a href={sectionHref("products")}>Products</a>
         <a href={sectionHref("process")}>Process</a>
+        <a href={links.tistory} target="_blank" rel="noreferrer">
+          Lab Notes
+        </a>
         <a href={sectionHref("founder")}>Founder</a>
         <a href={sectionHref("contact")}>Contact</a>
       </nav>
@@ -342,6 +346,46 @@ function HomePage() {
                     </div>
                   )}
                 </Fragment>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section lab-notes-section" id="lab-notes" aria-labelledby="lab-notes-title">
+          <div className="container">
+            <div className="lab-notes-heading reveal">
+              <div className="section-heading">
+                <p className="eyebrow">Lab Notes</p>
+                <h2 id="lab-notes-title">최근 제작 기록과 실험 노트</h2>
+                <p className="section-lead">
+                  문제를 발견하고, 시도와 변경을 기록하며, 다음 실험으로 이어갑니다.
+                </p>
+              </div>
+              <a
+                className="button button-secondary lab-notes-link"
+                href={links.tistory}
+                target="_blank"
+                rel="noreferrer"
+              >
+                티스토리에서 전체 보기 <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div className="lab-notes-grid">
+              {labNotes.slice(0, 5).map((note, index) => (
+                <a
+                  className="lab-note-card reveal"
+                  href={note.url}
+                  key={note.url}
+                  rel="noreferrer"
+                  target="_blank"
+                  style={{ "--reveal-delay": `${100 + index * 80}ms` } as CSSProperties}
+                >
+                  <span className="lab-note-index">{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{note.title}</strong>
+                  <span className="lab-note-meta">
+                    {note.publishedAt} <span aria-hidden="true">↗</span>
+                  </span>
+                </a>
               ))}
             </div>
           </div>
