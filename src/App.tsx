@@ -1,9 +1,10 @@
 import type { CSSProperties } from "react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   capabilityTags,
   labNotes,
   links,
+  type LabNote,
   type Product,
   processSteps,
   products,
@@ -185,6 +186,8 @@ function SiteHeader({ productMode }: { productMode?: boolean }) {
 }
 
 function HomePage() {
+  const recentLabNotes = useLabNotes();
+
   return (
     <main id="main">
         <section className="hero" id="home" aria-labelledby="hero-title">
@@ -371,7 +374,7 @@ function HomePage() {
               </a>
             </div>
             <div className="lab-notes-grid">
-              {labNotes.slice(0, 5).map((note, index) => (
+              {recentLabNotes.map((note, index) => (
                 <a
                   className="lab-note-card reveal"
                   href={note.url}
@@ -438,6 +441,50 @@ function HomePage() {
           </div>
         </section>
       </main>
+  );
+}
+
+function useLabNotes() {
+  const [notes, setNotes] = useState<LabNote[]>(labNotes);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadNotes = async () => {
+      try {
+        const response = await fetch("/api/lab-notes", {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) return;
+
+        const payload = (await response.json()) as { notes?: unknown };
+        if (!Array.isArray(payload.notes)) return;
+
+        const nextNotes = payload.notes.filter(isLabNote).slice(0, 5);
+        if (nextNotes.length > 0) setNotes(nextNotes);
+      } catch (error) {
+        if ((error as DOMException).name !== "AbortError") {
+          console.warn("Unable to refresh Lab Notes", error);
+        }
+      }
+    };
+
+    void loadNotes();
+    return () => controller.abort();
+  }, []);
+
+  return notes;
+}
+
+function isLabNote(value: unknown): value is LabNote {
+  if (!value || typeof value !== "object") return false;
+
+  const note = value as Partial<LabNote>;
+  return (
+    typeof note.title === "string" &&
+    typeof note.url === "string" &&
+    typeof note.publishedAt === "string"
   );
 }
 

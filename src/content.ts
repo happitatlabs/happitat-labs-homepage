@@ -15,6 +15,16 @@ export type LabNote = {
 
 export const labNotes = [
   {
+    title: "페르넥스의 첫 작업 기록: 티스토리 연결을 완료했습니다",
+    url: "https://paski.tistory.com/133",
+    publishedAt: "2026.08.25",
+  },
+  {
+    title: "작업 저장용 노트로 쓰기로 함",
+    url: "https://paski.tistory.com/132",
+    publishedAt: "2026.08.11",
+  },
+  {
     title: "어쩌다보니 재시작",
     url: "https://paski.tistory.com/125",
     publishedAt: "2025.10.19",

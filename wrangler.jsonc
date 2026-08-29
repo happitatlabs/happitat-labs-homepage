@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "happitat-labs-homepage",
+  "main": "worker.js",
   "compatibility_date": "2026-06-26",
   "assets": {
     "directory": "./dist",

@@ -1,5 +1,6 @@
 dist
 node_modules
+.wrangler
 *.local
 happitat-labs-homepage-dist.zip
 happitat-labs-homepage-fullpage.png
