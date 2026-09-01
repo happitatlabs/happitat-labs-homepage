@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { Fragment, useEffect, useState } from "react";
+import { HabitatResearchField } from "./HabitatResearchField";
 import {
   capabilityTags,
   labNotes,
@@ -354,6 +355,45 @@ function HomePage() {
           </div>
         </section>
 
+        <section
+          className="section habitat-research-section"
+          aria-labelledby="habitat-research-title"
+        >
+          <div className="container habitat-research-layout">
+            <div className="habitat-research-copy reveal">
+              <p className="eyebrow">Habitat Research Field</p>
+              <h2 id="habitat-research-title">
+                사람이 오래 머무를 수 있는 흐름을 관찰합니다.
+              </h2>
+              <p>
+                제품의 기능보다 먼저, 누가 어디에서 멈추는지 살핍니다. 관찰한
+                마찰을 작은 실험으로 바꾸고, 반복되는 조건을 제품의 구조로
+                남깁니다.
+              </p>
+              <ol className="habitat-research-list">
+                <li>
+                  <span>01</span>
+                  <strong>Observe</strong>
+                  <p>사용 흐름에서 멈춤과 반복을 기록합니다.</p>
+                </li>
+                <li>
+                  <span>02</span>
+                  <strong>Map</strong>
+                  <p>문제를 이해 가능한 단위와 관계로 정리합니다.</p>
+                </li>
+                <li>
+                  <span>03</span>
+                  <strong>Test</strong>
+                  <p>작은 MVP로 바꾸어 실제 환경에서 확인합니다.</p>
+                </li>
+              </ol>
+            </div>
+            <div className="habitat-research-visual reveal reveal-delay-1">
+              <HabitatResearchField />
+            </div>
+          </div>
+        </section>
+
         <section className="section lab-notes-section" id="lab-notes" aria-labelledby="lab-notes-title">
           <div className="container">
             <div className="lab-notes-heading reveal">
@@ -456,7 +496,8 @@ function useLabNotes() {
           signal: controller.signal,
         });
 
-        if (!response.ok) return;
+        const contentType = response.headers.get("content-type");
+        if (!response.ok || !contentType?.includes("application/json")) return;
 
         const payload = (await response.json()) as { notes?: unknown };
         if (!Array.isArray(payload.notes)) return;

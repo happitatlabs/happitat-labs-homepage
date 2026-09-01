@@ -570,6 +570,176 @@ h3 {
   display: none;
 }
 
+.habitat-research-section {
+  border-top: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.habitat-research-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.84fr);
+  align-items: center;
+  gap: 4rem;
+}
+
+.habitat-research-copy h2 {
+  max-width: 550px;
+  margin-top: 0.75rem;
+  font-size: 2.4rem;
+  line-height: 1.18;
+  word-break: keep-all;
+}
+
+.habitat-research-copy > p {
+  max-width: 590px;
+  margin-top: 1.15rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.habitat-research-list {
+  margin: 2rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+}
+
+.habitat-research-list li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(82px, 0.55fr) minmax(0, 1.45fr);
+  align-items: baseline;
+  gap: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0;
+}
+
+.habitat-research-list span {
+  color: var(--warm);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.habitat-research-list strong {
+  font-size: 0.95rem;
+}
+
+.habitat-research-list p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.habitat-research-visual {
+  min-width: 0;
+}
+
+.habitat-research-field {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-strong) 84%, var(--bg-soft));
+  box-shadow: 0 22px 70px rgba(23, 25, 28, 0.08);
+  isolation: isolate;
+}
+
+.habitat-research-field::before {
+  position: absolute;
+  z-index: 2;
+  inset: 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.habitat-research-canvas,
+.habitat-research-static {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.threeui-background.habitat-research-canvas {
+  background: #e8e5dc;
+  opacity: 0.7;
+}
+
+.habitat-research-canvas > canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: sepia(0.8) hue-rotate(298deg) saturate(0.55) !important;
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+}
+
+.habitat-research-static {
+  background: color-mix(in srgb, var(--bg-soft) 68%, var(--surface-strong));
+}
+
+.habitat-research-static-mark {
+  position: absolute;
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+
+.habitat-research-static-mark-a {
+  width: 56%;
+  height: 38%;
+  left: 21%;
+  top: 31%;
+  border-radius: 50%;
+  transform: rotate(-14deg);
+}
+
+.habitat-research-static-mark-b {
+  width: 36%;
+  height: 22%;
+  left: 32%;
+  top: 39%;
+  border-radius: 50%;
+  transform: rotate(12deg);
+}
+
+.habitat-research-static-mark-c {
+  width: 1px;
+  height: 72%;
+  left: 50%;
+  top: 14%;
+  border: 0;
+  background: color-mix(in srgb, var(--warm) 42%, transparent);
+  transform: rotate(35deg);
+}
+
+.habitat-research-label {
+  position: absolute;
+  z-index: 3;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.habitat-research-label-top {
+  top: 1.85rem;
+  left: 2rem;
+}
+
+.habitat-research-label-bottom {
+  right: 2rem;
+  bottom: 1.85rem;
+}
+
 .lab-notes-section {
   border-top: 1px solid var(--border);
   background: var(--bg-soft);
@@ -930,7 +1100,8 @@ h3 {
 
   .section-grid,
   .founder-layout,
-  .product-grid {
+  .product-grid,
+  .habitat-research-layout {
     grid-template-columns: 1fr;
   }
 
@@ -954,6 +1125,14 @@ h3 {
 
   .detail-hero h1 {
     font-size: 3rem;
+  }
+
+  .habitat-research-visual {
+    max-width: 620px;
+  }
+
+  .habitat-research-field {
+    min-height: 270px;
   }
 }
 
@@ -983,6 +1162,23 @@ h3 {
 
   .detail-hero h1 {
     font-size: 2.45rem;
+  }
+
+  .habitat-research-copy h2 {
+    font-size: 2rem;
+  }
+
+  .habitat-research-list li {
+    grid-template-columns: 2rem 1fr;
+    gap: 0.35rem 0.65rem;
+  }
+
+  .habitat-research-list p {
+    grid-column: 2;
+  }
+
+  .habitat-research-field {
+    min-height: 220px;
   }
 }
 
