@@ -48,37 +48,37 @@ export type Product = {
 
 export const capabilityTags = [
   "작은 문제",
-  "MVP First",
-  "실사용 검증",
-  "AI Product Engineering",
-  "플랫폼 확장",
+  "UI/UX",
+  "업무 자동화",
+  "작은 MVP",
+  "AI 활용",
 ];
 
 export const processSteps = [
   {
-    title: "Problem Finding",
-    subtitle: "현장의 문제를 발견",
-    description: "일상과 업무 흐름에서 반복되는 작은 불편과 이해 비용을 찾습니다.",
+    title: "Notice",
+    subtitle: "불편을 발견",
+    description: "매일 쓰는 화면과 업무에서 귀찮지만 반복되는 순간을 메모합니다.",
   },
   {
-    title: "Rapid MVP",
-    subtitle: "빠르게 MVP 제작",
-    description: "거대한 플랫폼보다 실제로 써볼 수 있는 작은 도구를 먼저 만듭니다.",
+    title: "Make",
+    subtitle: "작게 만듦",
+    description: "생각이 길어지기 전에 직접 써볼 수 있는 화면이나 도구로 만듭니다.",
   },
   {
-    title: "PMF",
-    subtitle: "실사용 검증",
-    description: "사용자의 피드백과 반복 사용 흐름을 통해 문제의 크기를 확인합니다.",
+    title: "Use",
+    subtitle: "함께 써봄",
+    description: "혼자 먼저 써보고, 필요한 사람에게 보여주며 무엇이 남는지 확인합니다.",
   },
   {
-    title: "Platform",
-    subtitle: "공통 엔진 추출",
-    description: "검증된 제품에서 반복되는 구조를 찾아 재사용 가능한 엔진으로 정리합니다.",
+    title: "Learn",
+    subtitle: "고쳐 나감",
+    description: "계속 쓰이는 부분은 다듬고, 아닌 것은 가볍게 다시 시작합니다.",
   },
   {
-    title: "Habitat",
-    subtitle: "제품 생태계 구축",
-    description: "사람이 오래 사용할 수 있는 제품들이 연결되는 작은 생태계를 만듭니다.",
+    title: "Keep",
+    subtitle: "오래 쓰기",
+    description: "쓸모가 남은 도구는 천천히 키워 오래 머물 수 있는 제품으로 만듭니다.",
   },
 ];
 

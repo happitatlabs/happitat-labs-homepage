@@ -200,16 +200,16 @@ function HomePage() {
           />
           <div className="hero-shade" />
           <div className="container hero-content reveal">
-            <p className="eyebrow">MVP First AI Product Studio</p>
+            <p className="eyebrow">Independent maker's notes</p>
             <h1 id="hero-title">Happitat Labs</h1>
             <p className="hero-copy">
-              사람과 시스템 사이의 복잡함을 줄이는 소프트웨어를 만듭니다.
+              사람과 시스템 사이의 복잡함을 조금 덜어내는 도구를 만듭니다.
             </p>
             <p className="hero-support">
-              우리는 일상과 업무 속 작은 불편을 발견합니다. 빠르게 MVP를 만들고
-              실제 사용자의 피드백으로 검증합니다. 검증된 제품은 하나의 공통
-              엔진으로 발전시키며, 결국 사람과 시스템 사이의 복잡함을 줄이는 AI
-              Product Studio를 지향합니다.
+              일상과 업무에서 자주 마주치는 불편을 기록하고, 직접 써볼 수 있는
+              작은 MVP로 만듭니다. 혼자 먼저 써보고, 피드백을 들으며 고칩니다.
+              지금은 AI를 활용해 이해하기 어려운 흐름을 조금 더 단순하게 만드는
+              일을 하고 있습니다.
             </p>
             <div className="hero-actions" aria-label="주요 링크">
               <a className="button button-primary" href="#products">
@@ -231,17 +231,16 @@ function HomePage() {
           <div className="container section-grid">
             <div className="section-heading reveal">
               <p className="eyebrow">About</p>
-              <h2 id="about-title">MVP First 제품 스튜디오</h2>
+              <h2 id="about-title">혼자 만들고, 천천히 키웁니다</h2>
             </div>
             <div className="section-body reveal reveal-delay-1">
               <p>
-                Happitat Labs는 작은 문제를 꾸준히 해결하는 독립 제품
-                스튜디오입니다.
+                Happitat Labs는 개발자 김혜인이 운영하는 작은 개인 작업실입니다.
               </p>
               <p>
-                우리는 화려한 플랫폼보다 실제로 사용되는 작은 도구를 먼저
-                만듭니다. 문제가 검증되면 제품이 되고, 제품이 모이면 플랫폼이
-                됩니다.
+                일과 생활 중 불편한 순간을 발견하면, 필요한 만큼의 도구를 직접
+                만듭니다. 혼자 써보고, 주변의 피드백을 들으며 계속 사용할 이유가
+                있는지 확인합니다.
               </p>
               <ul className="capability-list" aria-label="개발 영역">
                 {capabilityTags.map((tag) => (
@@ -256,10 +255,10 @@ function HomePage() {
           <div className="container">
             <div className="section-heading reveal">
               <p className="eyebrow">Products</p>
-              <h2 id="products-title">MVP에서 플랫폼으로 성장하는 제품들</h2>
+              <h2 id="products-title">지금 만들고 있는 것들</h2>
               <p className="section-lead">
-                제품을 나열하기보다 작은 문제를 빠르게 만들고 검증하며, 반복되는
-                구조를 공통 엔진으로 키워가는 흐름에 집중합니다.
+                아직 완성된 제품 모음은 아닙니다. 직접 마주친 문제에서 시작해,
+                작게 만들고 실제로 쓰면서 방향을 찾아가는 작업들입니다.
               </p>
             </div>
             <div className="product-grid">
@@ -310,11 +309,10 @@ function HomePage() {
           <div className="container">
             <div className="section-heading reveal">
               <p className="eyebrow">Process</p>
-              <h2 id="process-title">Happitat 방식</h2>
+              <h2 id="process-title">보통 이렇게 작업합니다</h2>
               <p className="section-lead">
-                Happitat Labs는 플랫폼을 먼저 만들지 않습니다. 작은 문제 하나를
-                발견하고, MVP로 검증한 뒤, 반복되는 구조를 제품과 플랫폼으로
-                성장시킵니다.
+                거창한 계획보다 지금 불편한 한 장면에서 시작합니다. 직접 쓸 수
+                있는 형태로 만든 뒤, 오래 남길 만한 문제인지 천천히 확인합니다.
               </p>
             </div>
             <div className="process-grid">
@@ -363,12 +361,11 @@ function HomePage() {
             <div className="habitat-research-copy reveal">
               <p className="eyebrow">Habitat Research Field</p>
               <h2 id="habitat-research-title">
-                사람이 오래 머무를 수 있는 흐름을 관찰합니다.
+                만드는 동안, 자주 멈춰서 살핍니다.
               </h2>
               <p>
-                제품의 기능보다 먼저, 누가 어디에서 멈추는지 살핍니다. 관찰한
-                마찰을 작은 실험으로 바꾸고, 반복되는 조건을 제품의 구조로
-                남깁니다.
+                무엇을 더 넣을지보다, 어디가 불편한지를 먼저 봅니다. 메모한
+                장면을 작은 테스트로 바꾸고, 계속 쓸 만한 흐름인지 확인합니다.
               </p>
               <ol className="habitat-research-list">
                 <li>
@@ -401,7 +398,8 @@ function HomePage() {
                 <p className="eyebrow">Lab Notes</p>
                 <h2 id="lab-notes-title">최근 제작 기록과 실험 노트</h2>
                 <p className="section-lead">
-                  문제를 발견하고, 시도와 변경을 기록하며, 다음 실험으로 이어갑니다.
+                  만들면서 남기는 짧은 기록입니다. 잘된 결과보다 진행 중인 생각과
+                  변경을 더 자주 적습니다.
                 </p>
               </div>
               <a
@@ -439,14 +437,14 @@ function HomePage() {
             <div>
               <p className="eyebrow">Founder</p>
               <h2 id="founder-title">
-                문제를 구조로 해결하는 AI 응용소프트웨어 개발자
+                작은 문제를 직접 만들어 해결해 보는 개발자입니다.
               </h2>
             </div>
             <p>
-              복잡한 시스템을 단순하게 만드는 것을 좋아합니다. UI/UX에서 시작하여
-              AI Product Engineering으로 영역을 확장하고 있습니다. 현재는 AI를
-              활용해 사람과 시스템 사이의 이해 비용을 줄이는 제품을 연구하고
-              있습니다.
+              안녕하세요, 김혜인입니다. 복잡한 시스템을 이해하기 쉬운 화면과 작은
+              도구로 바꾸는 일을 합니다. UI/UX와 개발을 오가며, AI를 활용해 직접
+              써보고 싶은 제품을 만들고 있습니다. 작업 중인 생각과 기록은 Notion에
+              정리합니다.
             </p>
             <a
               className="button button-primary"
@@ -463,7 +461,7 @@ function HomePage() {
           <div className="container section-grid">
             <div className="section-heading reveal">
               <p className="eyebrow">Contact</p>
-              <h2 id="contact-title">제품 및 프로젝트에 관한 문의</h2>
+              <h2 id="contact-title">제품이나 작업 이야기가 있다면</h2>
             </div>
             <address className="contact-list reveal reveal-delay-1">
               <a href={`mailto:${links.email}`}>
