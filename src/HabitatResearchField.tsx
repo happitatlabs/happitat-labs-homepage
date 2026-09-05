@@ -38,6 +38,24 @@ function StaticField() {
 
 export function HabitatResearchField() {
   const interactive = useInteractiveField();
+  const [traceNumber, setTraceNumber] = useState(1);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (!interactive || prefersReducedMotion) {
+      setTraceNumber(1);
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setTraceNumber((current) => (current % 3) + 1);
+    }, 15_000);
+
+    return () => window.clearInterval(intervalId);
+  }, [interactive]);
 
   return (
     <div className="habitat-research-field" aria-hidden="true">
@@ -61,7 +79,7 @@ export function HabitatResearchField() {
         Observation field
       </span>
       <span className="habitat-research-label habitat-research-label-bottom">
-        Trace 01
+        Trace {String(traceNumber).padStart(2, "0")}
       </span>
     </div>
   );
