@@ -45,12 +45,12 @@ export function HabitatResearchField() {
         <Suspense fallback={<StaticField />}>
           <DotMatrixBackground
             className="habitat-research-canvas"
-            gridScale={74}
+            gridScale={58}
             hue={0}
-            mouseAmount={0.018}
-            opacity={0.16}
+            mouseAmount={0.032}
+            opacity={0.42}
             pulseSpeed={0.72}
-            radius={0.07}
+            radius={0.12}
             speed={0.58}
           />
         </Suspense>

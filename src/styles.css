@@ -657,6 +657,46 @@ h3 {
   pointer-events: none;
 }
 
+.habitat-research-field::after {
+  position: absolute;
+  z-index: 2;
+  top: 32%;
+  left: -28%;
+  width: 42%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 70%, transparent), transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 38%, transparent);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(-18deg);
+  transform-origin: center;
+  animation: researchFieldTrace 15s ease-in-out infinite;
+}
+
+@keyframes researchFieldTrace {
+  0%,
+  14% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-18deg);
+  }
+
+  24%,
+  54% {
+    opacity: 0.48;
+  }
+
+  68% {
+    opacity: 0;
+    transform: translate3d(310%, 104px, 0) rotate(-18deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(310%, 104px, 0) rotate(-18deg);
+  }
+}
+
 .habitat-research-canvas,
 .habitat-research-static {
   position: absolute;
@@ -667,8 +707,8 @@ h3 {
 }
 
 .threeui-background.habitat-research-canvas {
-  background: #e8e5dc;
-  opacity: 0.7;
+  background: #e3e5df;
+  opacity: 1;
 }
 
 .habitat-research-canvas > canvas {
@@ -677,9 +717,9 @@ h3 {
   display: block;
   width: 100%;
   height: 100%;
-  filter: sepia(0.8) hue-rotate(298deg) saturate(0.55) !important;
+  filter: sepia(0.5) hue-rotate(298deg) saturate(0.82) contrast(1.2) !important;
   mix-blend-mode: multiply;
-  opacity: 0.72;
+  opacity: 0.94;
 }
 
 .habitat-research-static {
