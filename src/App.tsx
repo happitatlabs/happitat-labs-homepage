@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import { Fragment, useEffect, useState } from "react";
-import { HabitatResearchField } from "./HabitatResearchField";
 import {
   capabilityTags,
   labNotes,
@@ -410,9 +409,6 @@ function HomePage() {
                   <p>작은 MVP로 바꾸어 실제 환경에서 확인합니다.</p>
                 </li>
               </ol>
-            </div>
-            <div className="habitat-research-visual reveal reveal-delay-1">
-              <HabitatResearchField />
             </div>
           </div>
         </section>

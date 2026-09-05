@@ -576,10 +576,10 @@ h3 {
 }
 
 .habitat-research-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.84fr);
-  align-items: center;
-  gap: 4rem;
+}
+
+.habitat-research-copy {
+  max-width: 760px;
 }
 
 .habitat-research-copy h2 {
