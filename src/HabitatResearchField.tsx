@@ -12,16 +12,13 @@ function useInteractiveField() {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const desktopQuery = window.matchMedia("(min-width: 861px)");
-    const update = () => setEnabled(!motionQuery.matches && desktopQuery.matches);
+    const update = () => setEnabled(desktopQuery.matches);
 
     update();
-    motionQuery.addEventListener("change", update);
     desktopQuery.addEventListener("change", update);
 
     return () => {
-      motionQuery.removeEventListener("change", update);
       desktopQuery.removeEventListener("change", update);
     };
   }, []);
@@ -52,7 +49,7 @@ export function HabitatResearchField() {
             hue={0}
             mouseAmount={0.018}
             opacity={0.16}
-            pulseSpeed={0.42}
+            pulseSpeed={0.72}
             radius={0.07}
             speed={0.58}
           />
