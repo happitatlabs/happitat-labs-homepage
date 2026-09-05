@@ -82,16 +82,23 @@ function App() {
 
 function useScrollReveal(pathKey: string) {
   useEffect(() => {
-    const elements = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const elements = () =>
+      Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
 
     document.documentElement.classList.add("reveal-ready");
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      elements.forEach((element) => element.classList.add("is-visible"));
-      return;
+      const showElements = () =>
+        elements().forEach((element) => element.classList.add("is-visible"));
+
+      showElements();
+      const mutationObserver = new MutationObserver(showElements);
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+      return () => mutationObserver.disconnect();
     }
 
     const observer = new IntersectionObserver(
@@ -108,9 +115,28 @@ function useScrollReveal(pathKey: string) {
       },
     );
 
-    elements.forEach((element) => observer.observe(element));
+    const observe = (element: HTMLElement) => {
+      if (!element.classList.contains("is-visible")) observer.observe(element);
+    };
 
-    return () => observer.disconnect();
+    elements().forEach(observe);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          if (node.matches(".reveal")) observe(node);
+          node.querySelectorAll<HTMLElement>(".reveal").forEach(observe);
+        });
+      });
+    });
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, [pathKey]);
 }
 

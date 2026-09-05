@@ -50,11 +50,11 @@ export function HabitatResearchField() {
             className="habitat-research-canvas"
             gridScale={74}
             hue={0}
-            mouseAmount={0.012}
-            opacity={0.1}
-            pulseSpeed={0.08}
-            radius={0.05}
-            speed={0.14}
+            mouseAmount={0.018}
+            opacity={0.16}
+            pulseSpeed={0.42}
+            radius={0.07}
+            speed={0.58}
           />
         </Suspense>
       ) : (
