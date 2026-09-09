@@ -18,7 +18,7 @@ async function getLabNotes() {
     const response = await fetch(TISTORY_RSS_URL, {
       cf: {
         cacheEverything: true,
-        cacheTtl: 300,
+        cacheTtl: 60,
       },
     });
 
@@ -92,7 +92,7 @@ function jsonResponse(payload, status = 200) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
-      "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+      "Cache-Control": "no-store",
       "Content-Type": "application/json; charset=UTF-8",
     },
   });

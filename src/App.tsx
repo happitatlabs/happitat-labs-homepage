@@ -509,11 +509,15 @@ function useLabNotes() {
 
   useEffect(() => {
     const controller = new AbortController();
+    let loading = false;
 
     const loadNotes = async () => {
+      if (loading || document.visibilityState === "hidden") return;
+      loading = true;
       try {
         const response = await fetch("/api/lab-notes", {
           signal: controller.signal,
+          cache: "no-store",
         });
 
         const contentType = response.headers.get("content-type");
@@ -528,11 +532,22 @@ function useLabNotes() {
         if ((error as DOMException).name !== "AbortError") {
           console.warn("Unable to refresh Lab Notes", error);
         }
+      } finally {
+        loading = false;
       }
     };
 
     void loadNotes();
-    return () => controller.abort();
+    const interval = window.setInterval(() => void loadNotes(), 60_000);
+    const refresh = () => void loadNotes();
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("online", refresh);
+    return () => {
+      controller.abort();
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("online", refresh);
+    };
   }, []);
 
   return notes;
