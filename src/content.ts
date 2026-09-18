@@ -1,6 +1,6 @@
 export const links = {
   notion: "https://kimhyein.notion.site/AI-28df11285b02807e839bf0764cdef515",
-  email: "hyein.kim.dev@gmail.com",
+  email: "pletta@naver.com",
   github: "https://github.com/happitatlabs",
   tistory: "https://paski.tistory.com",
   happyHabitatPlay:
