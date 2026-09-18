@@ -56,29 +56,24 @@ export const capabilityTags = [
 
 export const processSteps = [
   {
-    title: "Notice",
-    subtitle: "불편을 발견",
+    title: "Discover",
+    subtitle: "문제 발견",
     description: "매일 쓰는 화면과 업무에서 귀찮지만 반복되는 순간을 메모합니다.",
   },
   {
-    title: "Make",
-    subtitle: "작게 만듦",
-    description: "생각이 길어지기 전에 직접 써볼 수 있는 화면이나 도구로 만듭니다.",
+    title: "Structure",
+    subtitle: "정보 구조화",
+    description: "사용자 흐름과 데이터의 관계를 정리하고, 먼저 해결할 문제의 범위를 좁힙니다.",
   },
   {
-    title: "Use",
-    subtitle: "함께 써봄",
-    description: "혼자 먼저 써보고, 필요한 사람에게 보여주며 무엇이 남는지 확인합니다.",
+    title: "Build",
+    subtitle: "MVP 구현",
+    description: "UI/UX와 분석 구조를 설계하고, AI와 소프트웨어로 직접 사용할 수 있는 MVP를 만듭니다.",
   },
   {
-    title: "Learn",
-    subtitle: "고쳐 나감",
-    description: "계속 쓰이는 부분은 다듬고, 아닌 것은 가볍게 다시 시작합니다.",
-  },
-  {
-    title: "Keep",
-    subtitle: "오래 쓰기",
-    description: "쓸모가 남은 도구는 천천히 키워 오래 머물 수 있는 제품으로 만듭니다.",
+    title: "Validate",
+    subtitle: "검증과 개선",
+    description: "테스트와 실제 사용 흐름으로 구현을 확인하고, 피드백을 다음 개선에 반영합니다.",
   },
 ];
 
@@ -122,7 +117,7 @@ export const products = [
   },
   {
     name: "픽셀정비소",
-    summary: "도트 작업을 코드와 연결해 작은 창작물을 빠르게 정리하는 Dot Code Editor 자리",
+    summary: "이미지와 픽셀 작업을 코드로 연결하는 브라우저 기반 Dot Code Editor",
     detail:
       "픽셀정비소는 이미지 업로드, 도트 편집, 팔레트 관리, TypeScript export를 한 곳에서 처리하는 브라우저 기반 Dot Code Editor입니다.",
     signal: "CREATE",

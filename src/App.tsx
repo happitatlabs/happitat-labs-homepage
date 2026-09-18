@@ -166,7 +166,7 @@ function useHashScroll(pathKey: string) {
 
       window.scrollTo({
         top: Math.max(targetTop, 0),
-        behavior: "smooth",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       });
     };
 
@@ -213,6 +213,8 @@ function SiteHeader({ productMode }: { productMode?: boolean }) {
 
 function HomePage() {
   const recentLabNotes = useLabNotes();
+  const featuredProducts = ["/products/sql-diagnoser", "/products/happy-habitat", "/products/dot-code-editor"]
+    .map((path) => products.find((product) => product.path === path)!);
 
   return (
     <main id="main">
@@ -228,13 +230,12 @@ function HomePage() {
             <p className="eyebrow">Independent maker's notes</p>
             <h1 id="hero-title">Happitat Labs</h1>
             <p className="hero-copy">
-              사람과 시스템 사이의 복잡함을 조금 덜어내는 도구를 만듭니다.
+              사람과 시스템 사이의 복잡함을 줄이는 소프트웨어를 만듭니다.
             </p>
             <p className="hero-support">
-              일상과 업무에서 자주 마주치는 불편을 기록하고, 직접 써볼 수 있는
-              작은 MVP로 만듭니다. 혼자 먼저 써보고, 피드백을 들으며 고칩니다.
-              지금은 AI를 활용해 이해하기 어려운 흐름을 조금 더 단순하게 만드는
-              일을 하고 있습니다.
+              문제 정의부터 MVP 구현·검증까지 직접 수행합니다.
+              UI/UX로 사용자의 문제를 이해하고, AI와 소프트웨어로
+              실제 사용할 수 있는 제품을 만듭니다.
             </p>
             <div className="hero-actions" aria-label="주요 링크">
               <a className="button button-primary" href="#products">
@@ -263,9 +264,9 @@ function HomePage() {
                 Happitat Labs는 개발자 김혜인이 운영하는 작은 개인 작업실입니다.
               </p>
               <p>
-                일과 생활 중 불편한 순간을 발견하면, 필요한 만큼의 도구를 직접
-                만듭니다. 혼자 써보고, 주변의 피드백을 들으며 계속 사용할 이유가
-                있는지 확인합니다.
+                UI/UX에서 시작해 정보시스템, 데이터, 업무 자동화로 작업 범위를
+                넓혀 왔습니다. 사용자와 현업의 문제를 구조화하고, 작은 MVP를
+                구현한 뒤 테스트와 사용 피드백으로 개선합니다.
               </p>
               <ul className="capability-list" aria-label="개발 영역">
                 {capabilityTags.map((tag) => (
@@ -287,7 +288,7 @@ function HomePage() {
               </p>
             </div>
             <div className="product-grid">
-              {products.map((product, index) => (
+              {featuredProducts.map((product, index) => (
                 <article
                   className="product-card reveal"
                   style={
@@ -459,14 +460,14 @@ function HomePage() {
             <div>
               <p className="eyebrow">Founder</p>
               <h2 id="founder-title">
-                작은 문제를 직접 만들어 해결해 보는 개발자입니다.
+                기록에서 구조로, 구조에서 제품으로
               </h2>
+              <p className="founder-identity"><strong>김혜인</strong><span>AI Product Builder / Product Engineer</span></p>
             </div>
             <p>
-              안녕하세요, 김혜인입니다. 복잡한 시스템을 이해하기 쉬운 화면과 작은
-              도구로 바꾸는 일을 합니다. UI/UX와 개발을 오가며, AI를 활용해 직접
-              써보고 싶은 제품을 만들고 있습니다. 작업 중인 생각과 기록은 Notion에
-              정리합니다.
+              UI/UX에서 시작해 정보시스템, 데이터, 업무 자동화로 영역을 확장했습니다.
+              사용자와 현업의 문제를 구조화하고, AI와 소프트웨어를 이용해
+              실제 사용할 수 있는 제품으로 구현합니다. 작업과 검증 기록은 Notion에 남깁니다.
             </p>
             <a
               className="button button-primary"
@@ -622,6 +623,8 @@ function ProductDetailPage({ product }: { product: Product }) {
         </div>
       </section>
 
+      {product.path === "/products/sql-diagnoser" && <SqlCaseStudy />}
+
       <section className="section detail-section" aria-labelledby="detail-status-title">
         <div className="container section-grid">
           <div className="section-heading reveal">
@@ -631,17 +634,21 @@ function ProductDetailPage({ product }: { product: Product }) {
                 ? "Google Play에서 공개 중입니다"
                 : isPreparing
                   ? "제품 자리를 준비 중입니다"
-                  : "MVP 검증 기록을 준비 중입니다"}
+                  : hasDemoUrl ? "브라우저에서 직접 확인할 수 있습니다" : "제품의 현재 단계"}
             </h2>
           </div>
           <div className="section-body reveal reveal-delay-1">
+            {product.path === "/products/happy-habitat" && <p>바쁜 하루에 지나쳐 버리는 행복과 회복의 순간을 남기고, 기록을 돌아보며 다음 하루를 이어 가도록 돕습니다.</p>}
+            {product.path === "/products/dot-code-editor" && <p>작은 픽셀 이미지를 편집하고 코드로 옮길 때 생기는 반복 작업을 줄이는 도구를 목표로 합니다.</p>}
             <p>
               {hasStoreUrl
                 ? `${product.name}은 Android에서 바로 확인할 수 있습니다. 제품 업데이트와 실험 기록은 GitHub 및 대표 Notion에 순차적으로 정리합니다.`
                 : isPreparing
                   ? `${product.name}은 현재 콘셉트와 MVP 범위를 정리하고 있습니다. 공개 가능한 내용은 이 상세 경로에 순차적으로 연결합니다.`
-                : "이 경로는 제품별 실험 기록, 사용자 피드백, 데모, 업데이트 로그를 연결하기 위해 열어두었습니다. 검증 가능한 내용부터 순차적으로 공개할 예정입니다."}
+                : hasDemoUrl ? "공개 데모에서 현재 동작을 확인할 수 있습니다. 공개 가능한 기능과 검증 결과를 정리하고 있습니다."
+                : "현재 공개 가능한 기능과 검증 결과를 정리하고 있습니다."}
             </p>
+            <a href={links.notion} target="_blank" rel="noreferrer">대표 Notion에서 업데이트 보기</a>
           </div>
         </div>
       </section>
@@ -667,6 +674,26 @@ function ProductDetailPage({ product }: { product: Product }) {
       )}
     </main>
   );
+}
+
+function SqlCaseStudy() {
+  const sections = [
+    { label: "Problem", title: "SQL을 실행하기 전에 구조를 이해할 수 있을까?", text: "테이블, JOIN, 조건, 집계, 의존성이 한 문장에 섞여 있으면 새로운 담당자가 맥락을 파악하기 어렵습니다. SQL을 실행하지 않아도 구조와 확인할 지점을 빠르게 읽을 수 있는 도구를 목표로 했습니다." },
+    { label: "My Role", title: "문제 정의부터 구현과 검증까지", text: "문제 정의와 사용자 흐름 설계, UI/UX, 규칙 기반 분석 구조 설계, React 프론트엔드 구현, 테스트 및 개선을 직접 수행했습니다." },
+    { label: "What I Built", title: "구조를 추출하고, 검토할 근거를 남깁니다", items: ["테이블·alias·JOIN 관계와 WHERE / HAVING / 집계 분석", "CTE·CASE·윈도우 함수와 서브쿼리 구조 파악", "다건 SQL의 테이블 자산 지도·의존성 흐름·리스크 후보 정리", "변경 전후 SQL 구조 비교와 검토 체크리스트", "분석 보고서 생성 및 공개 웹 데모"] },
+    { label: "AI / LLM", title: "분석 근거와 AI 설명을 분리합니다", text: "기본 분석은 AI 없이 규칙 기반으로 동작합니다. AI 설명 보강과 문서 초안 생성은 별도 설정 환경에서 선택적으로 사용합니다. 소스에는 OpenAI·Azure OpenAI·Ollama 연동이 구현되어 있으며, 공개 데모의 활성 상태와는 구분합니다. SQL은 전송 전에 마스킹하고, AI 호출에 실패해도 기본 분석 결과는 유지합니다." },
+    { label: "Validation", title: "입력 사례와 예외를 테스트합니다", text: "JOIN·집계·CTE·CASE·윈도우 함수 예제, SQL 변경 비교, 민감값 마스킹, AI 응답 오류와 실패 시 기본 결과 유지 동작을 자동 테스트로 확인합니다. 정규식 기반 정적 분석의 한계를 명시하며, 실행 계획이나 실제 성능·데이터 영향을 확정하지 않습니다." },
+    { label: "Stack", title: "구현에 사용한 기술", text: "React · TypeScript · Vite · Cloudflare Workers. SQL 텍스트의 규칙 기반 분석과 선택형 서버 AI API로 구성했습니다." },
+    { label: "Safe Demo", title: "운영 데이터를 사용하지 않는 데모", text: "기본 분석은 입력된 SQL 구조를 브라우저에서 해석하며 SQL을 실행하거나 브라우저 저장소에 저장하지 않습니다. 실제 운영 SQL·개인정보·고객 식별값은 입력하지 마세요. AI 기능은 별도 환경에서 선택적으로 활성화하며, 마스킹 후에도 테이블명·컬럼명·업무 구조가 요청에 포함될 수 있습니다." },
+  ];
+  return <section className="section case-study" aria-label="SQL Diagnoser Case Study">
+    <div className="container">
+      {sections.map((section) => <div className="section-grid case-study-row reveal" key={section.label}>
+        <div className="section-heading"><p className="eyebrow">{section.label}</p><h2>{section.title}</h2></div>
+        <div className="section-body">{section.text && <p>{section.text}</p>}{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</div>
+      </div>)}
+    </div>
+  </section>;
 }
 
 function MissingProductPage() {
