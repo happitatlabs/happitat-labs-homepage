@@ -4,3 +4,18 @@ node_modules
 *.local
 happitat-labs-homepage-dist.zip
 happitat-labs-homepage-fullpage.png
+
+# Local credentials and preview artifacts; keep documented examples available.
+.env
+.env.*
+!.env.example
+!.env.sample
+.dev.vars
+.dev.vars.*
+.tmp-*
+.tmp_*
+*.key
+*.p12
+*.pfx
+service-account*.json
+*.log
