@@ -143,3 +143,35 @@ export const products = [
     cardCta: "상세 보기",
   },
 ] satisfies Product[];
+
+export type PortfolioGuideQuestion = {
+  id: string;
+  question: string;
+  answer: string;
+  items?: { title: string; description: string }[];
+};
+
+// Keep these answers limited to the public About, Founder and product pages.
+export const portfolioGuideQuestions: PortfolioGuideQuestion[] = [
+  {
+    id: "person",
+    question: "이 사람은 무슨 일을 해요?",
+    answer:
+      "김혜인은 Happitat Labs라는 개인 작업실을 운영하는 AI Product Builder / Product Engineer입니다. UI/UX에서 시작해 정보시스템, 데이터, 업무 자동화로 영역을 넓혀 왔습니다. 사용자 문제를 구조화하고, MVP 구현부터 테스트와 피드백을 통한 개선까지 직접 수행합니다.",
+  },
+  {
+    id: "projects",
+    question: "어떤 프로젝트를 했어요?",
+    answer: "홈페이지에서 소개하는 주요 작업 세 가지입니다.",
+    items: ["/products/sql-diagnoser", "/products/happy-habitat", "/products/dot-code-editor"]
+      .map((path) => products.find((product) => product.path === path))
+      .filter((product): product is (typeof products)[number] => Boolean(product))
+      .map((product) => ({ title: product.name, description: product.summary })),
+  },
+  {
+    id: "skills",
+    question: "어떤 기술을 사용할 수 있어요?",
+    answer:
+      "공개된 SQL Diagnoser 사례에는 React, TypeScript, Vite, Cloudflare Workers를 사용한 구현과 SQL 텍스트의 규칙 기반 분석이 소개되어 있습니다. UI/UX와 사용자 흐름 설계, 분석 구조 설계, 프론트엔드 구현, 테스트 및 개선을 직접 수행했습니다.",
+  },
+];

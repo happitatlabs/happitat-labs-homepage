@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { Fragment, useEffect, useState } from "react";
+import { PortfolioGuide } from "./PortfolioGuide";
 import {
   capabilityTags,
   labNotes,
@@ -75,6 +76,7 @@ function App() {
           <p>© {new Date().getFullYear()} Happitat Labs</p>
         </div>
       </footer>
+      <PortfolioGuide />
     </>
   );
 }

@@ -1,0 +1,283 @@
+.portfolio-guide {
+  position: fixed;
+  z-index: 15;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  color: var(--text);
+  letter-spacing: 0;
+}
+
+.portfolio-guide button {
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.portfolio-guide button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.guide-trigger {
+  display: flex;
+  width: 72px;
+  height: 88px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.guide-trigger-label {
+  padding: 2px 9px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.guide-character {
+  position: relative;
+  display: block;
+  width: 68px;
+  height: 59px;
+  animation: guide-idle 4.8s ease-in-out;
+  transition: transform 180ms ease;
+}
+
+.guide-character-book {
+  position: absolute;
+  inset: 3px 9px 0;
+  border: 1.5px solid var(--accent-strong);
+  border-radius: 6px 8px 8px 6px;
+  background: var(--bg);
+  box-shadow: inset 5px 0 var(--bg-soft), 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+.guide-character-tab {
+  position: absolute;
+  top: -5px;
+  right: 7px;
+  width: 9px;
+  height: 13px;
+  border-radius: 1px;
+  background: var(--warm);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
+}
+
+.guide-character-eyes {
+  position: absolute;
+  top: 18px;
+  left: 15px;
+  display: flex;
+  gap: 10px;
+  animation: guide-blink 4.8s;
+}
+
+.guide-character-eyes i {
+  width: 3px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.guide-character-smile {
+  position: absolute;
+  top: 26px;
+  left: 21px;
+  width: 7px;
+  height: 4px;
+  border: 1.5px solid var(--text);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+}
+
+.guide-character-lines {
+  position: absolute;
+  left: 15px;
+  bottom: 9px;
+  width: 21px;
+  height: 5px;
+  border-block: 1px solid var(--border);
+}
+
+.guide-character-arm {
+  position: absolute;
+  top: 28px;
+  width: 13px;
+  height: 15px;
+  border: 1.5px solid var(--accent-strong);
+  border-radius: 50%;
+  background: var(--bg-soft);
+}
+
+.guide-character-arm-left { left: 1px; transform: rotate(-30deg); }
+.guide-character-arm-right { right: 1px; transform: rotate(30deg); }
+
+.guide-trigger:hover .guide-character,
+.guide-trigger:focus-visible .guide-character {
+  transform: translateY(-2px) rotate(-3deg);
+}
+
+.guide-trigger[aria-expanded="true"] .guide-character,
+.guide-trigger[aria-expanded="true"] .guide-character-eyes {
+  animation: none;
+}
+
+.guide-bubble {
+  position: absolute;
+  right: 0;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  width: min(360px, calc(100vw - 40px));
+  max-height: min(560px, calc(100dvh - 156px));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  animation: guide-appear 160ms ease-out;
+}
+
+.guide-bubble::after {
+  position: absolute;
+  right: 29px;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  transform: rotate(45deg);
+  content: "";
+}
+
+.guide-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 12px 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.guide-header p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.guide-header h2 {
+  margin-top: 3px;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.guide-close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.guide-close:hover { background: var(--bg-soft); }
+
+.guide-content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 6px 12px 12px;
+}
+
+.guide-question + .guide-question { border-top: 1px solid var(--border); }
+
+.guide-question-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 8px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.5;
+  text-align: left;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  transition: background-color 160ms ease;
+}
+
+.guide-question-button:hover,
+.guide-question-button[aria-expanded="true"] { background: var(--bg-soft); }
+.guide-question-button[aria-expanded="true"] { color: var(--accent-strong); }
+.guide-question-symbol { flex: 0 0 16px; font-size: 18px; text-align: center; }
+
+.guide-answer {
+  padding: 12px 8px 16px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.guide-answer ul { margin: 14px 0 0; padding: 0; list-style: none; }
+.guide-answer li + li { margin-top: 14px; }
+.guide-answer strong { display: block; margin-bottom: 3px; color: var(--text); font-weight: 700; }
+
+@keyframes guide-idle {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-3px) rotate(-2deg); }
+}
+
+@keyframes guide-blink {
+  0%, 42%, 47%, 82%, 87%, 100% { transform: scaleY(1); }
+  44%, 85% { transform: scaleY(0.1); }
+}
+
+@keyframes guide-appear {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 520px) {
+  .portfolio-guide {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .guide-trigger { width: 64px; height: 80px; }
+  .guide-bubble {
+    bottom: 92px;
+    width: min(360px, calc(100vw - 24px));
+    max-height: min(58dvh, calc(100dvh - 136px));
+  }
+  .guide-bubble::after { right: 25px; }
+  .guide-header { padding: 12px 10px 10px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-guide *, .portfolio-guide *::after {
+    animation: none;
+    transition: none;
+  }
+  .guide-trigger:hover .guide-character,
+  .guide-trigger:focus-visible .guide-character { transform: none; }
+}
