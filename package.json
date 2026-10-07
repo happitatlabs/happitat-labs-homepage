@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck:mel": "tsc --noEmit -p tsconfig.mel.json",
+    "test:mel": "node --test tests/mel-azure.test.mjs tests/mel-worker.test.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

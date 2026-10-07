@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { portfolioGuideQuestions } from "./content";
+import { MelQuestion } from "./MelQuestion";
 import "./portfolio-guide.css";
 
-// Static homepage-only guide. SQL authentication and AI services are not connected.
-// TODO(vNext): Review scope and data policies before adding any conversational integrations.
+// Static navigation stays available regardless of the optional Mel-only service.
 export function PortfolioGuide() {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -179,6 +179,7 @@ export function PortfolioGuide() {
                 </div>
               </div>
             ))}
+            {import.meta.env.VITE_MEL_AI_ENABLED !== "false" && <MelQuestion />}
           </div>
         </section>
       )}

@@ -271,6 +271,25 @@
 .guide-cta:hover { color: var(--text); }
 .guide-cta span { flex: 0 0 auto; }
 
+.guide-ai { border-top: 1px solid var(--border); margin-top: 8px; }
+#mel-ai-content { padding: 8px; font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
+.guide-ai-notice { color: var(--muted); margin-bottom: 10px; }
+.guide-ai-quota { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.guide-ai-quota button { border: 0; background: transparent; min-height: 44px; padding: 6px 0; text-decoration: underline; }
+.guide-ai label { display: block; margin: 10px 0 5px; font-weight: 650; }
+.guide-ai textarea {
+  display: block; width: 100%; min-height: 88px; max-height: 180px; resize: vertical;
+  border: 1px solid var(--border); border-radius: 4px; padding: 10px;
+  background: var(--bg-soft); color: var(--text); font: inherit; font-size: 16px;
+}
+.guide-ai textarea:focus-visible, .guide-ai-answer:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.guide-ai-action { min-height: 44px; margin-top: 8px; border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; background: var(--bg-soft); font: inherit; font-weight: 650; }
+.guide-ai-action:hover:not(:disabled) { border-color: var(--accent); }
+.guide-ai button:disabled { opacity: 0.55; cursor: default; }
+.guide-ai-status { color: var(--muted); margin-top: 10px; }
+.guide-ai-answer { border-top: 1px solid var(--border); margin-top: 12px; padding-top: 12px; }
+.guide-ai-answer > p { white-space: pre-line; }
+
 @keyframes guide-dismiss {
   from { opacity: 1; transform: translateY(0) scale(1); }
   to { opacity: 0; transform: translateY(6px) scale(0.97); }

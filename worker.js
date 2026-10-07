@@ -1,9 +1,13 @@
+import { proxyMel } from "./mel/homepage-proxy.js";
+
 const TISTORY_RSS_URL = "https://paski.tistory.com/rss";
 const NOTE_LIMIT = 5;
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (url.pathname.startsWith("/api/mel/")) return proxyMel(request, env);
 
     if (url.pathname === "/api/lab-notes") {
       return getLabNotes();
