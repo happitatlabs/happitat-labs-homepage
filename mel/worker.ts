@@ -1,12 +1,14 @@
 import { answerPublicQuestion, melAzureReady, MEL_LIMITS, type MelAzureEnv } from "./azure.js";
 import { renderSelection } from "./answers.js";
-import { browserIdentity, digest, json, newCookie, readBody, sameOrigin, UUID } from "./http.js";
+import { browserIdentity, legacyBrowserIdentity, digest, json, newCookie, readBody, sameOrigin, UUID } from "./http.js";
+import { verifyTurnstile } from "./turnstile.js";
 import { cleanLedger, complete, nextReset, quota, reserve, type Ledger } from "./quota.js";
 
 interface StorageTransaction {
   get<T>(key: string): Promise<T | undefined>;
   put<T>(key: string, value: T): Promise<void>;
   setAlarm(time: number): Promise<void>;
+  getAlarm(): Promise<number | null>;
 }
 interface Storage extends StorageTransaction {
   transaction<T>(closure: (transaction: StorageTransaction) => Promise<T>): Promise<T>;
@@ -14,13 +16,14 @@ interface Storage extends StorageTransaction {
 type Env = MelAzureEnv & {
   MEL_SESSION_SECRET?: string;
   MEL_GLOBAL_DAILY_LIMIT?: string;
+  MEL_TURNSTILE_SECRET_KEY?: string;
   MEL_QUOTA: { idFromName(name: string): unknown; get(id: unknown): { fetch(request: Request): Promise<Response> } };
 };
 
 function configurationReady(env: Env) {
   return melAzureReady(env) && /^[1-9]\d{0,2}$/.test(env.MEL_GLOBAL_DAILY_LIMIT ?? "")
     && Number(env.MEL_GLOBAL_DAILY_LIMIT) <= 100 && (env.MEL_SESSION_SECRET?.length ?? 0) >= 32
-    && Boolean(env.MEL_QUOTA);
+    && (env.MEL_TURNSTILE_SECRET_KEY?.trim().length ?? 0) >= 20 && Boolean(env.MEL_QUOTA);
 }
 
 export default {
@@ -33,17 +36,25 @@ export default {
     let data;
     try { data = await readBody(request); } catch { return json({ code: "invalid_request" }, 400); }
     const session = path.endsWith("/session");
-    if (session ? Object.keys(data).length !== 0 : Object.keys(data).sort().join(",") !== "question,requestId"
+    if (session ? !["", "challenge"].includes(Object.keys(data).sort().join(","))
+      || (data.challenge !== undefined && (typeof data.challenge !== "string" || data.challenge.length > 2048))
+      : Object.keys(data).sort().join(",") !== "question,requestId"
       || typeof data.question !== "string" || !data.question.trim() || data.question.length > MEL_LIMITS.questionCharacters
       || typeof data.requestId !== "string" || !UUID.test(data.requestId)) return json({ code: "invalid_request" }, 400);
     try {
       let browser = await browserIdentity(request, env.MEL_SESSION_SECRET!);
       if (!browser && !session) return json({ code: "session_required" }, 401);
       const created = !browser;
-      browser ??= crypto.randomUUID();
+      if (!browser) {
+        if (!data.challenge) return json({ code: "challenge_required" }, 403);
+        if (!await verifyTurnstile(data.challenge, env.MEL_TURNSTILE_SECRET_KEY!, new URL(request.url).hostname)) {
+          return json({ code: "challenge_failed" }, 403);
+        }
+        browser = await legacyBrowserIdentity(request, env.MEL_SESSION_SECRET!) ?? crypto.randomUUID();
+      }
       const response = await env.MEL_QUOTA.get(env.MEL_QUOTA.idFromName("mel-global-v1")).fetch(new Request("https://mel.internal/" + (session ? "session" : "turn"), {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ browser, ...data }),
+        body: JSON.stringify(session ? { browser } : { browser, question: data.question, requestId: data.requestId }),
       }));
       if (!session || !created || !response.ok) return response;
       const headers = new Headers(response.headers);
@@ -62,11 +73,15 @@ export class MelQuota {
     return this.state.storage.transaction(async (transaction) => {
       const now = Date.now();
       const ledger = await transaction.get<Ledger>("ledger") ?? { days: {} };
+      const before = JSON.stringify(ledger);
       cleanLedger(ledger, now);
       const result = operation(ledger, now);
-      await transaction.put("ledger", ledger);
+      const changed = JSON.stringify(ledger) !== before;
+      if (changed) await transaction.put("ledger", ledger);
       // Even without new visitors, remove identifiers within 48 hours.
-      if (Object.keys(ledger.days).length) await transaction.setAlarm(nextReset(now));
+      if (Object.keys(ledger.days).length && await transaction.getAlarm() !== nextReset(now)) {
+        await transaction.setAlarm(nextReset(now));
+      }
       return result;
     });
   }

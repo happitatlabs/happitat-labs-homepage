@@ -15,13 +15,29 @@ fs.mkdirSync(output, { recursive: true });
       const errors = [];
       const turns = [];
       let sessions = 0;
+      let widgetLoads = 0;
+      let verified = false;
+      let acceptChallenge = false;
       let mode = 'ok';
       let remaining = 3;
       const resetAt = new Date(Date.now()+86400_000).toISOString();
       page.on('pageerror', error => errors.push(error.message));
       await page.route('**/api/lab-notes', route => route.fulfill({json:{notes:[]}}));
+      await page.route('https://challenges.cloudflare.com/turnstile/v0/api.js*', route => {
+        widgetLoads++;
+        return route.fulfill({contentType:'application/javascript',body:`window.turnstile={
+          render(element,options){const button=document.createElement('button');button.type='button';
+            button.textContent='테스트 보안 확인';button.id='synthetic-challenge';
+            button.onclick=()=>options.callback('synthetic-token-'+crypto.randomUUID());element.append(button);return button.id;},
+          remove(id){document.getElementById(id)?.remove();}
+        };`});
+      });
       await page.route('**/api/mel/session', async route => {
         sessions++;
+        const data = route.request().postDataJSON();
+        if(!verified && !data.challenge) return route.fulfill({status:403,json:{code:'challenge_required'}});
+        if(!verified && !acceptChallenge) return route.fulfill({status:403,json:{code:'challenge_failed'}});
+        verified = true;
         await route.fulfill({json:{remaining,resetAt}});
       });
       await page.route('**/api/mel/turn', async route => {
@@ -30,6 +46,7 @@ fs.mkdirSync(output, { recursive: true });
         assert.deepEqual(Object.keys(data).sort(), ['question','requestId']);
         if (mode === 'disconnect') return route.abort('failed');
         if (mode === 'pending') return route.fulfill({status:202,json:{code:'pending',remaining:2,resetAt}});
+        if (mode === 'rate') return route.fulfill({status:429,json:{code:'rate_limited'},headers:{'Retry-After':'60'}});
         if (mode === 'failed') return route.fulfill({status:503,json:{code:'failed',remaining,resetAt}});
         if (mode === 'global') return route.fulfill({status:429,json:{code:'global_limit',remaining,resetAt}});
         if (mode === 'hostile') return route.fulfill({json:{remaining:2,resetAt,answer:{id:'fake',reply:'FAKE_UNREVIEWED',sources:[{title:'bad',url:'javascript:alert(1)'}]}}});
@@ -42,9 +59,22 @@ fs.mkdirSync(output, { recursive: true });
       await page.getByRole('button',{name:'AI로 질문하기',exact:true}).click();
       assert.equal(sessions, 0);
       assert.equal(turns.length, 0);
+      assert.equal(widgetLoads, 0);
       await page.getByRole('button',{name:'확인하고 시작하기'}).click();
+      await page.getByRole('button',{name:'테스트 보안 확인'}).waitFor();
+      assert.equal(widgetLoads,1);
+      assert.equal(await page.getByRole('textbox',{name:'궁금한 점'}).count(),0);
+      await page.screenshot({path:path.join(output,`challenge-${viewport.width}.png`)});
+      await page.getByRole('button',{name:'테스트 보안 확인'}).click();
+      await page.getByRole('status').filter({hasText:'결과를 확인하지 못했어요'}).waitFor();
+      const rejectedSessions = sessions;
+      await page.waitForTimeout(250);
+      assert.equal(sessions,rejectedSessions);
+      acceptChallenge = true;
+      await page.getByRole('button',{name:'보안 확인 다시 하기'}).click();
+      await page.getByRole('button',{name:'테스트 보안 확인'}).click();
       await page.getByRole('textbox',{name:'궁금한 점'}).waitFor();
-      assert.equal(sessions, 1);
+      assert.equal(sessions, 3);
       const input = page.getByRole('textbox',{name:'궁금한 점'});
       const submit = () => page.getByRole('button',{name:/^(질문 보내기|답변 확인)$/}).click();
       await input.fill('어떤 일을 하세요?');
@@ -71,6 +101,11 @@ fs.mkdirSync(output, { recursive: true });
       await page.waitForTimeout(250);
       assert.equal(turns.length,count);
       assert.equal(await input.getAttribute('readonly'),'');
+      mode = 'rate';
+      await submit();
+      await page.getByRole('status').filter({hasText:'1분 뒤'}).waitFor();
+      assert.equal(turns.at(-1).requestId,failedId);
+      assert.equal(await input.getAttribute('readonly'),'');
       mode = 'pending';
       await submit();
       await page.getByRole('status').filter({hasText:'아직 답변'}).waitFor();
@@ -80,11 +115,11 @@ fs.mkdirSync(output, { recursive: true });
       await page.getByLabel('멜의 답변',{exact:true}).waitFor();
       assert.equal(turns.at(-1).requestId,failedId);
       // Failures and daily limits keep static navigation and close accessible.
-      for (const errorMode of ['failed','global','hostile']) {
+      for (const errorMode of ['failed','rate','global','hostile']) {
         mode = errorMode;
         await input.fill('다른 질문');
         await submit();
-        await page.getByRole('status').filter({hasText: errorMode === 'failed' ? '차감하지' : errorMode === 'global' ? '마감' : '연결할 수'}).waitFor();
+        await page.getByRole('status').filter({hasText: errorMode === 'failed' ? '차감하지' : errorMode === 'rate' ? '1분 뒤' : errorMode === 'global' ? '마감' : '연결할 수'}).waitFor();
         assert.equal(await page.getByText('FAKE_UNREVIEWED',{exact:true}).count(),0);
         if (errorMode === 'hostile') break;
       }

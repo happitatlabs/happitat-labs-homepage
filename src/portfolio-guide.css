@@ -323,3 +323,4 @@
   .guide-trigger:hover .guide-character,
   .guide-trigger:focus-visible .guide-character { transform: none; }
 }
+.guide-ai-challenge-widget { min-height: 140px; display: flex; justify-content: center; }

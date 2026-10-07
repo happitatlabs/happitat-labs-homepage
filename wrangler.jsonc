@@ -10,6 +10,10 @@
     "run_worker_first": ["/api/mel/*", "/api/lab-notes"]
   },
   "services": [{ "binding": "MEL_SERVICE", "service": "happitat-mel-guide" }],
+  "ratelimits": [
+    { "name": "MEL_REQUEST_LIMITER", "namespace_id": "2026100701", "simple": { "limit": 20, "period": 60 } },
+    { "name": "MEL_SESSION_LIMITER", "namespace_id": "2026100702", "simple": { "limit": 5, "period": 60 } }
+  ],
   "observability": {
     "enabled": true
   }
