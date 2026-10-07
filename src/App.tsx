@@ -690,7 +690,11 @@ function SqlCaseStudy() {
   ];
   return <section className="section case-study" aria-label="SQL Diagnoser Case Study">
     <div className="container">
-      {sections.map((section) => <div className="section-grid case-study-row reveal" key={section.label}>
+      {sections.map((section) => <div
+        className="section-grid case-study-row reveal"
+        id={section.label === "What I Built" ? "sql-features" : section.label === "AI / LLM" ? "sql-ai" : section.label === "Stack" ? "sql-stack" : undefined}
+        key={section.label}
+      >
         <div className="section-heading"><p className="eyebrow">{section.label}</p><h2>{section.title}</h2></div>
         <div className="section-body">{section.text && <p>{section.text}</p>}{section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}</div>
       </div>)}

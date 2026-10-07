@@ -2,7 +2,7 @@
   position: fixed;
   z-index: 15;
   right: max(20px, env(safe-area-inset-right));
-  bottom: max(16px, env(safe-area-inset-bottom));
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--guide-viewport-offset, 0px));
   color: var(--text);
   letter-spacing: 0;
 }
@@ -13,7 +13,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.portfolio-guide button:focus-visible {
+.portfolio-guide button:focus-visible,
+.portfolio-guide a:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
@@ -47,7 +48,6 @@
   display: block;
   width: 68px;
   height: 59px;
-  animation: guide-idle 4.8s ease-in-out;
   transition: transform 180ms ease;
 }
 
@@ -77,7 +77,6 @@
   left: 15px;
   display: flex;
   gap: 10px;
-  animation: guide-blink 4.8s;
 }
 
 .guide-character-eyes i {
@@ -120,14 +119,12 @@
 .guide-character-arm-left { left: 1px; transform: rotate(-30deg); }
 .guide-character-arm-right { right: 1px; transform: rotate(30deg); }
 
-.guide-trigger:hover .guide-character,
 .guide-trigger:focus-visible .guide-character {
-  transform: translateY(-2px) rotate(-3deg);
+  transform: translateY(-2px) rotate(-1deg);
 }
 
-.guide-trigger[aria-expanded="true"] .guide-character,
-.guide-trigger[aria-expanded="true"] .guide-character-eyes {
-  animation: none;
+@media (hover: hover) {
+  .guide-trigger:hover .guide-character { transform: translateY(-2px) rotate(-1deg); }
 }
 
 .guide-bubble {
@@ -137,12 +134,18 @@
   display: flex;
   flex-direction: column;
   width: min(360px, calc(100vw - 40px));
-  max-height: min(560px, calc(100dvh - 156px));
+  max-height: min(560px, calc(var(--guide-viewport-height, 100dvh) - 156px));
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--bg);
   box-shadow: var(--shadow);
-  animation: guide-appear 160ms ease-out;
+  transform-origin: calc(100% - 36px) bottom;
+  animation: guide-appear 180ms ease-out both;
+}
+
+.guide-bubble.is-closing {
+  pointer-events: none;
+  animation: guide-dismiss 180ms ease-in both;
 }
 
 .guide-bubble::after {
@@ -203,6 +206,13 @@
   padding: 6px 12px 12px;
 }
 
+.guide-prompt {
+  padding: 10px 8px 8px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .guide-question + .guide-question { border-top: 1px solid var(--border); }
 
 .guide-question-button {
@@ -242,32 +252,45 @@
 .guide-answer ul { margin: 14px 0 0; padding: 0; list-style: none; }
 .guide-answer li + li { margin-top: 14px; }
 .guide-answer strong { display: block; margin-bottom: 3px; color: var(--text); font-weight: 700; }
-
-@keyframes guide-idle {
-  0%, 100% { transform: translateY(0); }
-  45% { transform: translateY(-3px) rotate(-2deg); }
+.guide-answer h3 { margin: 0 0 8px; color: var(--text); font-size: 14px; line-height: 1.6; }
+.guide-actions { display: flex; flex-wrap: wrap; gap: 0 12px; margin-top: 8px; }
+.guide-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 2px;
+  color: var(--accent-strong);
+  font-weight: 650;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 180ms ease;
 }
+.guide-cta:hover { color: var(--text); }
+.guide-cta span { flex: 0 0 auto; }
 
-@keyframes guide-blink {
-  0%, 42%, 47%, 82%, 87%, 100% { transform: scaleY(1); }
-  44%, 85% { transform: scaleY(0.1); }
+@keyframes guide-dismiss {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(6px) scale(0.97); }
 }
 
 @keyframes guide-appear {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @media (max-width: 520px) {
   .portfolio-guide {
     right: max(12px, env(safe-area-inset-right));
-    bottom: max(12px, env(safe-area-inset-bottom));
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + var(--guide-viewport-offset, 0px));
   }
   .guide-trigger { width: 64px; height: 80px; }
   .guide-bubble {
     bottom: 92px;
     width: min(360px, calc(100vw - 24px));
-    max-height: min(58dvh, calc(100dvh - 136px));
+    max-height: min(calc(var(--guide-viewport-height, 100dvh) * 0.58), calc(var(--guide-viewport-height, 100dvh) - 136px));
   }
   .guide-bubble::after { right: 25px; }
   .guide-header { padding: 12px 10px 10px 16px; }

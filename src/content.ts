@@ -146,32 +146,94 @@ export const products = [
 
 export type PortfolioGuideQuestion = {
   id: string;
+  label: string;
   question: string;
   answer: string;
-  items?: { title: string; description: string }[];
+  actions: { label: string; href: string }[];
+  items?: {
+    title: string;
+    description: string;
+    action: { label: string; href: string };
+  }[];
 };
 
 // Keep these answers limited to the public About, Founder and product pages.
 export const portfolioGuideQuestions: PortfolioGuideQuestion[] = [
   {
-    id: "person",
-    question: "이 사람은 무슨 일을 해요?",
-    answer:
-      "김혜인은 Happitat Labs라는 개인 작업실을 운영하는 AI Product Builder / Product Engineer입니다. UI/UX에서 시작해 정보시스템, 데이터, 업무 자동화로 영역을 넓혀 왔습니다. 사용자 문제를 구조화하고, MVP 구현부터 테스트와 피드백을 통한 개선까지 직접 수행합니다.",
-  },
-  {
     id: "projects",
+    label: "대표 프로젝트",
     question: "어떤 프로젝트를 했어요?",
-    answer: "홈페이지에서 소개하는 주요 작업 세 가지입니다.",
+    answer: "일상의 기록, SQL 이해, 픽셀 편집의 불편에서 출발한 작업들이에요. 각 소개 페이지에서 현재 구현과 공개 결과물을 함께 살펴보실 수 있어요.",
     items: ["/products/sql-diagnoser", "/products/happy-habitat", "/products/dot-code-editor"]
       .map((path) => products.find((product) => product.path === path))
       .filter((product): product is (typeof products)[number] => Boolean(product))
-      .map((product) => ({ title: product.name, description: product.summary })),
+      .map((product) => ({
+        title: product.name,
+        description: product.summary,
+        action: { label: "프로젝트 보기", href: product.path },
+      })),
+    actions: [{ label: "제품 목록 보기", href: "/#products" }],
+  },
+  {
+    id: "person",
+    label: "할 수 있는 일",
+    question: "이 사람은 무슨 일을 해요?",
+    answer:
+      "김혜인은 사용자와 현업의 문제를 이해하고, 정보와 작업 흐름을 정리하는 개발자예요. UI/UX 설계부터 MVP 구현, 테스트와 피드백을 통한 개선까지 직접 하고 있어요.",
+    actions: [
+      { label: "대표 프로젝트 보기", href: "/#products" },
+      { label: "Founder 보기", href: "/#founder" },
+    ],
   },
   {
     id: "skills",
+    label: "사용 기술",
     question: "어떤 기술을 사용할 수 있어요?",
     answer:
-      "공개된 SQL Diagnoser 사례에는 React, TypeScript, Vite, Cloudflare Workers를 사용한 구현과 SQL 텍스트의 규칙 기반 분석이 소개되어 있습니다. UI/UX와 사용자 흐름 설계, 분석 구조 설계, 프론트엔드 구현, 테스트 및 개선을 직접 수행했습니다.",
+      "UI/UX 설계부터 프론트엔드 구현, 데이터 분석과 AI 활용까지 연결해 작업하고 있어요. 공개된 작업 방식과 SQL Diagnoser 사례에서 확인할 수 있는 내용을 안내해 드릴게요.",
+    items: [
+      {
+        title: "UI/UX · Product Design",
+        description: "문제 정의, 사용자 흐름과 UI/UX 설계",
+        action: { label: "작업 방식 보기", href: "/#process" },
+      },
+      {
+        title: "Frontend / Product Engineering",
+        description: "React · TypeScript · Vite · Cloudflare Workers",
+        action: { label: "구현 기술 보기", href: "/products/sql-diagnoser#sql-stack" },
+      },
+      {
+        title: "Data · Database",
+        description: "SQL 텍스트의 규칙 기반 구조·관계 분석",
+        action: { label: "분석 기능 보기", href: "/products/sql-diagnoser#sql-features" },
+      },
+      {
+        title: "AI · Automation",
+        description: "선택형 AI 설명 보강과 문서 초안 생성. 별도 설정 환경에서 사용합니다.",
+        action: { label: "AI 활용 범위 보기", href: "/products/sql-diagnoser#sql-ai" },
+      },
+    ],
+    actions: [{ label: "개발 영역 보기", href: "/#about" }],
+  },
+  {
+    id: "career",
+    label: "경력",
+    question: "어떤 경험을 쌓아 왔어요?",
+    answer:
+      "UI/UX에서 시작해 정보시스템, 데이터, 업무 자동화로 작업 영역을 넓혀 왔어요. 현재는 Happitat Labs에서 AI Product Builder / Product Engineer로 제품을 만들고 있어요. Founder 소개와 대표 Notion에서 더 살펴보실 수 있어요.",
+    actions: [
+      { label: "Founder 소개 보기", href: "/#founder" },
+      { label: "대표 Notion 보기", href: links.notion },
+    ],
+  },
+  {
+    id: "contact",
+    label: "연락하기",
+    question: "제품이나 프로젝트 이야기를 나누려면?",
+    answer: "제품이나 프로젝트에 관한 이야기는 이메일로 보내 주세요. Contact에서 연락처와 GitHub를 확인하실 수 있어요.",
+    actions: [
+      { label: "Contact로 이동", href: "/#contact" },
+      { label: "이메일 보내기", href: `mailto:${links.email}` },
+    ],
   },
 ];
